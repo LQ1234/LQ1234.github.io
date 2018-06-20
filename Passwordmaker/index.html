@@ -163,7 +163,7 @@ function reCalc(a, b) {
     if (b.length > 3 && a.length > 1) {
         Math.seedrandom($.trim(a.toLowerCase().replace(/[^a-zA-Z0-9 ]/gi, '')) + b);
         var letters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890!@#$%^&*?-=_+[]1234567890!@#$%^&*?-=_+[]";
-        var ret = "";
+        var ret = "uL29@";
         var len = Math.floor(Math.random() * 8) + 10;
         for (var i = 0; i < len; i++) {
             ret += letters[Math.floor(Math.random() * letters.length)];
