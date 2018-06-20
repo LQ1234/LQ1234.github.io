@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="seedrandom.js">
+</script>
+<script
+  src="jquery-3.3.1.min.js"></script>
+<style>
+	
+body{   
+
+
+      font-family: "Helvetica", sans-serif;
+  padding:5px;
+
+}
+#add{
+    position: relative;
+}
+.dropdown{
+  left: 32%;
+  display:none;
+    background-color: #f9f9f9;
+
+      position: absolute;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+width:200px;
+    z-index: 1;
+padding:10px;
+padding-bottom:30px;
+
+    border: 1px solid lightgray;
+
+}
+h2{
+  color:black;
+  
+    margin-top: 0;
+    margin-bottom: 0;
+font-weight:540;
+
+}
+h3{
+  color:gray;
+      margin-top: 0;
+
+    margin-bottom: 0;
+font-size:1em;
+font-weight:400;
+}
+h4{
+  color:gray;
+      margin-top: 0;
+
+    margin-bottom: 0;
+font-size:.8em;
+font-weight:300;
+}
+
+input{
+  width:30%;
+        margin-top:3px;  
+
+
+}
+#out { 
+width:70%;
+}
+#lowinin { 
+width:87%;
+float:center;
+margin: auto;
+}
+#lowin { 
+      position: absolute;
+
+    bottom: 10px;
+width:100%;
+
+}
+a:link {
+    color: #2b94d1;
+}
+
+a:visited {
+    color: #2b94d1;
+}
+
+a:hover {
+    color: #1d6893;
+}
+button {
+    text-align: center;
+    height:20px;
+    font-size: 10px;
+        border-radius:1px;
+       margin:0px;
+           display: inline-block;
+    text-align: center;
+margin-right:20px;
+margin-left:5px;
+      margin: 3px 1%;
+
+}
+#add{
+      margin: 10px 1%;
+
+}
+a:active {
+    color: #1d6893;
+}
+</style>
+<script>
+window.onload=(function(){
+	var answer = "";
+
+$('#out').bind('input', function() {
+    document.getElementById("out").value = answer;
+});
+$('#service').bind('input', function() {
+    reCalc(document.getElementById("service").value, document.getElementById("key").value);
+});
+$('#key').bind('input', function() {
+    reCalc(document.getElementById("service").value, document.getElementById("key").value);
+});
+var togshown = false;
+
+$('#add').click( function() {
+    togshown = !togshown;
+    if (togshown) {
+        document.getElementById("listq").style.display = "block";
+    } else {
+        document.getElementById("listq").style.display = "none";
+    }
+});
+console.log(getItms());
+$(document).click(function(event) { 
+    if((!$(event.target).closest('#listq').length)&&(!$(event.target).closest('#add').length)){
+    togshown=false;
+            $('#listq').hide();
+        
+    }        
+})
+loadItms(getItms());
+
+}
+)
+
+
+
+
+
+function remo(itm){
+var re=($(itm).siblings(".itm")[0].innerHTML);
+var e=getItms();
+var i=e.indexOf(re);
+  e.splice(i, 1);
+  setItms(e);
+loadItms(e);
+}
+function reCalc(a, b) {
+    if (b.length > 3 && a.length > 1) {
+        Math.seedrandom($.trim(a.toLowerCase().replace(/[^a-zA-Z0-9 ]/gi, '')) + b);
+        var letters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890!@#$%^&*?-=_+[]1234567890!@#$%^&*?-=_+[]";
+        var ret = "";
+        var len = Math.floor(Math.random() * 8) + 10;
+        for (var i = 0; i < len; i++) {
+            ret += letters[Math.floor(Math.random() * letters.length)];
+        }
+        answer = ret;
+        document.getElementById("out").value = answer;
+    } else {
+        answer = "";
+        document.getElementById("out").value = answer;
+    }
+}
+
+
+function getItms(){
+if(localStorage.getItem("ServKey")){
+	return JSON.parse(localStorage.getItem("ServKey"));
+}else{
+        localStorage.setItem("ServKey",JSON.stringify([]));
+			return [];
+    }
+}
+function setItms(itms){
+
+        localStorage.setItem("ServKey", JSON.stringify(itms));
+
+}
+function loadItms(itms){
+document.getElementById("listq").innerHTML="<div id=lowin><input id=lowinin> <\/div>"
+for(var val of itms){
+
+document.getElementById("listq").innerHTML+="<div><a class=itm onclick=\"(function(){document.getElementById(\'service\').value=window.event.srcElement.innerHTML;document.reCalc(document.getElementById(\'service\').value, document.getElementById(\'key\').value);})()\" href=\"#\">INS<\/a><button class=remove onclick=\"document.remo(this)\">-<\/button><\/div>".replace("INS",val);
+
+}
+$("#lowinin").on('keyup', function (e) {
+    if (e.keyCode == 13&&document.getElementById("lowinin").value.length>1) {
+        // Do something
+        var i=getItms();
+        
+        i.push(document.getElementById("lowinin").value);
+        
+        setItms(i);
+        loadItms(getItms());
+document.getElementById("lowinin").value="";
+
+    }
+});
+}
+document.reCalc=reCalc;
+document.remo=remo;
+
+</script>
+</head>
+<body>
+<h2>Password generator</h2>
+<h3>By LQ1234</h3>
+<hr>
+<h4>Credit:<a href="https://github.com/davidbau/seedrandom">seedrandom.js</a> by David Bau</h4>
+
+<input id="service" placeholder="Service Name">
+<button id=add>+</button>
+<div id='listq' class=dropdown>
+
+
+
+
+
+<div id=lowin><input id=lowinin> </div>
+
+
+
+
+</div>
+<input id="key" type="password" placeholder="Secret Key">
+<br>
+<input id="out" placeholder="Generated password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" >
+</body>
+</html>
