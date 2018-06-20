@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search</title>
+  </head>
+  <body>
+    <h1 style="font-size:40px;">Scratch Search</h1>
+    <h3>Made by <a href="https://scratch.mit.edu/users/LQ1234/">LQ1234</a></h3>
+    <p>I liked the original search so I made this:</p>
+    <style>
+      
+      li.buttons{
+        float:left;
+        text-decoration: none;
+        list-style-type: none;
+        width:25%;
+        margin: 0px;
+        padding-left: 0px;
+        padding-top:16px;
+        padding-bottom:16px;
+        font-size: 20px;
+        font-family: "Open Sans", sans-serif;
+        background-color: #f1f1f1;
+        color: black;
+        text-align: center;
+        transition: 0.2s;
+        display: inline-block;
+        text-decoration: none;
+      }
+      body{font-family: "Open Sans", sans-serif;
+      }
+      a{
+      text-decoration: none;
+        color:black;
+      }
+      li.buttons:hover{
+
+        background-color:lightgray;
+        color: black;
+
+        transition: 0.2s;
+      }
+
+    </style>
+
+      <a href="projects.html"><li class=buttons>Projects</li></a>
+      <a href="studios.html"><li class=buttons>Studios</li></a>
+      <a href="users.html"><li class=buttons>Users</li></a>
+    <a href="forums.html"><li class=buttons>Forums</li></a>
+      <div id='cse' style='width: 100%;'>Loading</div>
+<script src='//www.google.com/jsapi' type='text/javascript'></script>
+<script type='text/javascript'>
+google.load('search', '1', {language: 'en', style: google.loader.themes.V2_DEFAULT});
+google.setOnLoadCallback(function() {
+  var customSearchOptions = {};
+  var orderByOptions = {};
+  orderByOptions['keys'] = [{label: 'Relevance', key: ''} , {label: 'Date', key: 'date'}];
+  customSearchOptions['enableOrderBy'] = true;
+  customSearchOptions['orderByOptions'] = orderByOptions;
+  customSearchOptions['overlayResults'] = false;
+  var customSearchControl =   new google.search.CustomSearchControl('003958717441505702975:9bogrko-abe', customSearchOptions);
+  customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+  var options = new google.search.DrawOptions();
+  options.setAutoComplete(true);
+  customSearchControl.draw('cse', options);
+}, true);
+</script>
+
+
+
+  </body>
+</html>
+
