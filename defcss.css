@@ -1,0 +1,102 @@
+body {
+  font-family: Helvetica;
+  background-color: white;
+  padding:20px;
+}
+
+#header {
+  margin:-20px;/*sorry but im lazy*/
+
+  width:auto;
+  margin-bottom:20px;
+padding-bottom: 0px;
+}
+
+.dropdown-items a {
+  display: block;
+  word-wrap: break-word;
+  padding: 8px;
+  border-top: 1px solid #f7f7f7;
+  text-align: left;
+  background-color: white;
+}
+
+.dropdown-items a:hover {
+  background-color: #ededed;
+}
+
+#header-menu a {
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-items {
+  right: -1px;
+  /*fix weird inheritance of border*/
+  left: -1px;
+  top: 100%;
+  /*align properly*/
+  width: calc(100%-40px);
+  padding: 0px;
+  z-index: 1;
+  position: absolute;
+  display: none;
+  background-color: white;
+  border: 1px solid lightgray;
+}
+
+.dropdown:hover .dropdown-items {
+  display: block;
+}
+
+.dropdown {
+  width: 100%;
+  position: relative;
+}
+
+#header-menu ul {
+  display: inline-flex;
+  list-style-type: none;
+  margin: 0px;
+
+}
+#header-menu{
+      font-size: 20px;
+      padding: 0px;
+
+}
+#header-menu li {
+  margin-right: 8px;
+  border: 1px solid lightgray;
+  border-bottom: 0px;
+  min-width: 100px;
+  padding: 10px;
+}
+
+#header-menu li:hover {
+  background-color: lightgray;
+}
+
+#header-menu ul:first-child {
+  margin-left: 8px;
+}
+
+#name {
+  color: black;
+  font-variant: small-caps;
+  margin: 20px;
+  font-size: 70px;
+}
+
+#name span {
+  color: gray;
+}
+
+#header:after {
+  position: absolute;
+  content: "";
+  box-sizing: border-box;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(lightgray, rgba(255, 255, 255, 0));
+}
