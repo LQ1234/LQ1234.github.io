@@ -1,5 +1,5 @@
 window.onload = function(){
-fetch('files.json')
+fetch('https://larrys.tech/files.json')
   .then(function(json) {
     console.log(json)
     createHeaders(json)
