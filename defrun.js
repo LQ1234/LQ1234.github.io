@@ -1,8 +1,11 @@
 window.onload = function(){
 fetch('https://larrys.tech/files.json')
+.then(function(response) {
+    return response.json();
+  })
   .then(function(json) {
-    console.log(json)
-    createHeaders(json)
+    createHeaders((json))
+
   });
 
 function createHeaders(obj) {
