@@ -2,16 +2,22 @@ body {
   font-family: Helvetica;
   background-color: white;
   padding:20px;
+  padding-top:0px;
+
 }
 
 #header {
   margin:-20px;/*sorry but im lazy*/
-
+margin-top:0px;
   width:auto;
   margin-bottom:20px;
+  padding-top:15px;
 padding-bottom: 0px;
+background-color:white;
 }
-
+.icon{
+  float:right;
+}
 .dropdown-items a {
   display: block;
   word-wrap: break-word;
@@ -71,6 +77,7 @@ padding-bottom: 0px;
   border-bottom: 0px;
   min-width: 100px;
   padding: 10px;
+  background-color:white;
 }
 
 #header-menu li:hover {
@@ -85,11 +92,22 @@ padding-bottom: 0px;
   color: black;
   font-variant: small-caps;
   margin: 20px;
+  margin-bottom: 0px;
+  margin-top:0px;
+
   font-size: 50px;
   text-align: center;
 
 }
+#subname {
+  color: black;
+  font-variant: small-caps;
+  margin: 10px;
+  margin-top: 0px;
+  font-size: 20px;
+  text-align: center;
 
+}
 #name span {
   color: gray;
 }

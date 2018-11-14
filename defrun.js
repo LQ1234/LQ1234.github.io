@@ -17,7 +17,10 @@ function createHeaders(obj) {
   name.innerHTML = "Larrys<span>.</span>Tech";
   header.appendChild(name);
 
-
+  var subname = document.createElement("div");
+  subname.id = "subname";
+  subname.innerHTML = "My code and other stuff";
+  header.appendChild(subname);
 
 
   var headermenu = document.createElement("div");
