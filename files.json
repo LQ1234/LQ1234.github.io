@@ -1,1 +1,13 @@
-{"ML":"#","ADS":"#","other":{"trump":"#","clinton":"google.com"}}
+{
+
+   "Autoclicker":"autoclicker.html",
+   "Autoencoder":"autoencoder.html",
+   "Multiplayer game":"io.html",
+
+   "Other":{
+      "HTML grid generator":"htmlgrid.html",
+      "Minecraft auto reply":"autoreply.html",
+      "Password Generator":"passwordgen.html",
+      "Realistic bot movement":"botmve.html"
+   }
+}
