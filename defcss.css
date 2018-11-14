@@ -17,7 +17,11 @@ background-color:white;
 }
 .texticon{
   float:right;
-
+font-size: 30px;
+position:relative;
+top:-10px;
+margin-bottom:-2000px;
+overflow: hidden;
 }
 .icon{
   float:right;
