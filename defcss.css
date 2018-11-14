@@ -5,7 +5,36 @@ body {
   padding-top:0px;
 
 }
+a:link {
+    color: #0099cc;
+}
 
+a:visited {
+    color: #0099cc;
+}
+
+a:hover {
+    color:  #00bfff;
+}
+
+a:active {
+    color: 	#66d9ff;
+}
+
+.aButton {
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px 10px;
+    color:black;
+    background: white;
+    border-style: outset;
+    border-width: 2px;
+    border-color: gray;
+}
+.aButton:active {
+  border-style: inset;
+
+}
 #header {
   margin:-20px;/*sorry but im lazy*/
 margin-top:0px;
