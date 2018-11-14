@@ -70,13 +70,13 @@ var link = document.createElement("link");
 link.type = "text/css";
 link.rel = "stylesheet";
 link.href = "defcss.css";
-head.appendChild(link);
+head.insertBefore(link,head.childNodes[0]);
 
 var link2 = document.createElement("link");
 link2.type = "text/css";
 link2.rel = "stylesheet";
 link2.href = "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css";
-head.appendChild(link2);
+head.insertBefore(link2,head.childNodes[0]);
 
 
 

@@ -1,60 +1,66 @@
 body {
   font-family: Helvetica;
   background-color: white;
-  padding:20px;
-  padding-top:0px;
-
+  padding: 20px;
+  padding-top: 0px;
 }
+
 a:link {
-    color: #0099cc;
+  color: #0099cc;
 }
 
 a:visited {
-    color: #0099cc;
+  color: #0099cc;
 }
 
 a:hover {
-    color:  #00bfff;
+  color: #00bfff;
 }
 
 a:active {
-    color: 	#66d9ff;
+  color: #66d9ff;
 }
 
 .aButton {
-    text-decoration: none;
-    display: inline-block;
-    padding: 10px 10px;
-    color:black;
-    background: white;
-    border-style: outset;
-    border-width: 2px;
-    border-color: gray;
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px 10px;
+  color: black;
+  background: white;
+  border-style: outset;
+  border-width: 2px;
+  border-color: gray;
 }
+
 .aButton:active {
   border-style: inset;
+}
 
-}
 #header {
-  margin:-20px;/*sorry but im lazy*/
-margin-top:0px;
-  width:auto;
-  margin-bottom:20px;
-  padding-top:15px;
-padding-bottom: 0px;
-background-color:white;
+  margin: -20px;
+  /*sorry but im lazy*/
+  margin-top: 0px;
+  margin-bottom: 20px;
+  padding-top: 15px;
+  padding-bottom: 0px;
+  background-color: white;
+  position:absolute;
+min-width:100%;
 }
-.texticon{
-  float:right;
-font-size: 30px;
-position:relative;
-top:-10px;
-margin-bottom:-2000px;
-overflow: hidden;
+
+.texticon {
+  float: right;
+  font-size: 30px;
+  position: relative;
+  top: -10px;
+  margin-bottom: -2000px;
+  overflow: hidden;
 }
-.icon{
-  float:right;
+
+.icon {
+  float: right;
 }
+
 .dropdown-items a {
   display: block;
   word-wrap: break-word;
@@ -71,7 +77,6 @@ overflow: hidden;
 #header-menu a {
   text-decoration: none;
   color: black;
-
 }
 
 .dropdown-items {
@@ -102,24 +107,27 @@ overflow: hidden;
   display: inline-flex;
   list-style-type: none;
   margin: 0px;
+}
 
+#header-menu {
+  font-size: 15px;
+  padding: 0px;
+  margin-left: -40px;
 }
-#header-menu{
-      font-size: 15px;
-      padding: 0px;
-margin-left: -40px
-}
+
 #header-menu li {
   margin-right: 8px;
   border: 1px solid lightgray;
   border-bottom: 0px;
   min-width: 100px;
   padding: 10px;
-  background-color:white;
+  background-color: white;
 }
-#header-menu ul > a {
-white-space:nowrap;
+
+#header-menu ul>a {
+  white-space: nowrap;
 }
+
 #header-menu li:hover {
   background-color: lightgray;
 }
@@ -133,12 +141,11 @@ white-space:nowrap;
   font-variant: small-caps;
   margin: 20px;
   margin-bottom: 0px;
-  margin-top:0px;
-
+  margin-top: 0px;
   font-size: 50px;
   text-align: center;
-
 }
+
 #subname {
   color: black;
   font-variant: small-caps;
@@ -146,8 +153,8 @@ white-space:nowrap;
   margin-top: 0px;
   font-size: 20px;
   text-align: center;
-
 }
+
 #name span {
   color: gray;
 }
@@ -156,7 +163,7 @@ white-space:nowrap;
   position: absolute;
   content: "";
   box-sizing: border-box;
-  width: 100%;
+  min-width: 100%;
   height: 10px;
   background: linear-gradient(lightgray, rgba(255, 255, 255, 0));
 }
