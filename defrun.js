@@ -44,6 +44,8 @@ function createHeaders(obj) {
       list.appendChild(nwc);
       nwc.className = "dropdown";
       nwc.innerHTML += tn;
+      nwc.innerHTML += "<span class=texticon>&#xff0b;</span>";
+
       var ddi = document.createElement("div");
       ddi.className = "dropdown-items"
       nwc.appendChild(ddi);
