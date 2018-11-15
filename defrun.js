@@ -78,6 +78,9 @@ link2.rel = "stylesheet";
 link2.href = "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css";
 head.insertBefore(link2,head.childNodes[0]);
 
+var src = document.createElement("script");
+src.src = "https://code.jquery.com/jquery-3.3.1.slim.min.js";
+head.insertBefore(src,head.childNodes[0]);
 
 
 } ;
