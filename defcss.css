@@ -5,19 +5,19 @@ body {
   padding-top: 0px;
 }
 
-a:link {
+a:link:not(.aButton) {
   color: #0099cc;
 }
 
-a:visited {
+a:visited:not(.aButton) {
   color: #0099cc;
 }
 
-a:hover {
+a:hover:not(.aButton) {
   color: #00bfff;
 }
 
-a:active {
+a:active:not(.aButton) {
   color: #66d9ff;
 }
 
@@ -30,6 +30,7 @@ a:active {
   border-style: outset;
   border-width: 2px;
   border-color: gray;
+  color:black;
 }
 
 .aButton:active {
@@ -37,6 +38,8 @@ a:active {
 }
 
 #header {
+  position: absolute;
+
   margin: -20px;
   /*sorry but im lazy*/
   margin-top: 0px;
