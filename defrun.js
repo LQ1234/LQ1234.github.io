@@ -63,6 +63,14 @@ window.onload = function() {
     var spacefiller = document.createElement("div");
     spacefiller.id = "spacefiller";
     document.body.insertBefore(spacefiller, document.body.childNodes[1]);
+    if(window.jQuery){
+      var n = function() {
+        $("#spacefiller")[0].style.height = ($("#header").height() + 15) + "px";
+      }
+      $(window).resize(n);
+      n();
+    }else{
+
     var src = document.createElement("script");
     src.src = "https://code.jquery.com/jquery-3.3.1.slim.min.js";
     head.insertBefore(src, head.childNodes[0]);
@@ -75,6 +83,7 @@ window.onload = function() {
       $(window).resize(n);
       n();
     };
+  }
   }
 
 

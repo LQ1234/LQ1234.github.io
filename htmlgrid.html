@@ -1,17 +1,722 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <script src="defrun.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <title>HTML Grid</title>
-<style>
+  <style>
+    body {
+      background: white;
+      padding:0px;
+      font-family: Helvetica;
+      height: 100%;
+    }
 
+    #editor_contentwrapper {
+      box-sizing: border-box;
+      background: gray;
+      position: absolute;
+      height: 100%;
+      width: 70%;
+      left: 0px;
+      top: 0px;
+      overflow-y: scroll;
+      padding-top: 30px;
+    }
 
-</style>
+    #editor_settingB {
+      display: none;
+      width: 100%;
+      height: calc(100% - 50px);
+      top: 50px;
+      left: 0px;
+      position: absolute;
+      background: white;
+    }
+
+    #editor_settingA {
+      display: block;
+      width: 100%;
+      height: calc(100% - 50px);
+      top: 50px;
+      left: 0px;
+      position: absolute;
+      background: white;
+    }
+
+    #editor_TC {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color: black;
+      transform: translate(-50%, -50%);
+    }
+
+    #editor_BA {
+      width: 50%;
+      height: 50px;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      text-align: center;
+      vertical-align: middle;
+      background: white;
+    }
+
+    #editor_BB {
+      width: 50%;
+      height: 50px;
+      position: absolute;
+      left: 50%;
+      top: 0px;
+      text-align: center;
+      vertical-align: middle;
+      background: gray;
+    }
+
+    #editor_settings {
+      position: fixed;
+      height: 100%;
+      width: 30%;
+      left: 70%;
+      top: 0px;
+      padding: 0px;
+      overflow-y: scroll;
+    }
+
+    #editor_editor {
+      background: white;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+    }
+
+    #editor_marginEdit {
+      position: relative;
+      width: 25vw;
+      height: 25vw;
+      background: url("https://lq1234.github.io/img.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    .marginDiaInput {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      width: 15%;
+    }
+
+    #marginDiaLeft {
+      top: 50%;
+      left: 17%;
+    }
+
+    #marginDiaTop {
+      left: 50%;
+      top: 17%;
+    }
+
+    #marginDiaRight {
+      top: 50%;
+      left: 83%;
+    }
+
+    #marginDiaBottom {
+      left: 50%;
+      top: 83%;
+    }
+
+    #editor_canv {
+      position: absolute;
+      background: clear;
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+      /*display: none;*/
+    }
+
+    #editor_elements {
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background: white;
+      overflow: hidden;
+    }
+
+    .editor_dragable {
+      border: 1px solid black;
+      position: absolute;
+      min-width: 10vw;
+      padding: 2px;
+      text-align: center;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      background: white;
+      z-index: 100;
+    }
+  </style>
 </head>
+
 <body>
 
+  <div id=editor_contentwrapper>
 
-<h1>WIP</h1>
-<p>This is still WIP, check in later!</p>
+    <div id=editor_editor>
+
+
+      <canvas id=editor_canv></canvas>
+
+
+
+      <div id=editor_elements>
+
+        <script>
+          var resizeFunction = (function() {
+            $(".scaledElement").each(function(i) {
+              var pos = JSON.parse($(this).attr("pos"));
+              var boxSize = $(this.parentElement).width() / 20;
+              this.style.left = (pos[0] * boxSize) + "px";
+              this.style.top = (pos[1] * boxSize) + "px";
+              this.style.width = ((pos[2] - pos[0] + 1) * boxSize) + "px";
+              this.style.height = ((pos[3] - pos[1] + 1) * boxSize) + "px";
+
+            });
+          });
+          window.resizeFunction = resizeFunction;
+
+          resizeFunction();
+          $(window).resize(resizeFunction);
+          $(window).ready(resizeFunction);
+        </script>
+
+
+
+
+      </div>
+
+
+    </div>
+
+    <div id=editor_settings>
+      <a href="#" onclick="window.opentab(1)">
+        <div id=editor_BA>
+          <div id=editor_TC>
+            Elements
+          </div>
+        </div>
+      </a>
+      <a href="#" onclick="window.opentab(2)">
+        <div id=editor_BB>
+          <div id=editor_TC>
+            Document
+          </div>
+        </div>
+      </a>
+      <div id=editor_settingA>
+
+
+        <h2>Create</h2>
+        <div class=editor_dragable>Text</div><br><br>
+        <div class=editor_dragable>Image</div><br><br>
+        <div class=editor_dragable>Input</div><br><br>
+        <div class=editor_dragable>Box</div><br><br>
+        <div class=editor_dragable>Canvas</div><br><br>
+        <div class=editor_dragable>Button</div><br><br>
+        <div id=editor_elemData>
+          <h2 id=editor_elemDataName>Element</h2>
+          <p>Select an element</p>
+        </div>
+
+      </div>
+      <div id=editor_settingB>
+        <h2>Settings</h2>
+        <button onclick="$('#editor_canv').toggle()">Toggle Canvas</button>
+        <button onclick='window.showresult()'>Export</button>
+        <button onclick=''>Import</button>
+      </div>
+
+      <br>
+    </div>
+
+
+  </div>
+
+  <script>
+    window.showresult = function() {
+      var win = window.open("", "", "width=50,height=50");
+      win.document.write("<textarea disabled>" + window.getOutput() + "</textarea>");
+
+      var win2 = window.open("", "", "width=50,height=50");
+      win2.document.write(window.getOutput());
+
+
+    }
+    window.copyandpaste = null;
+    window.opentab = function(t) {
+      if (t == 1) {
+        $("#editor_BA")[0].style.background = "white";
+        $("#editor_BB")[0].style.background = "gray";
+        $("#editor_settingB").hide();
+        $("#editor_settingA").show();
+      } else {
+        $("#editor_BB")[0].style.background = "white";
+        $("#editor_BA")[0].style.background = "gray";
+        $("#editor_settingB").show();
+        $("#editor_settingA").hide();
+
+      }
+    }
+
+    function elemUpdate() {
+      if (window.oldsel != window.currselected) {
+        var name = $(window.currselected).children()[0].nodeName;
+        var tarEle = $(window.currselected).children()[0];
+        name = name.charAt(0).toUpperCase() + name.substr(1).toLowerCase();
+
+        $("#editor_elemDataName")[0].innerHTML = name;
+        window.oldsel = window.currselected;
+        $($("#editor_elemData").children().slice(1).remove());
+        var make = $("#editor_elemData")[0];
+        $(make).append($.parseHTML(
+          "<h3>Margin Data</h3> <div id=editor_marginEdit><input class=marginDiaInput id=marginDiaLeft onchange='window.marDate(this)'> <input class=marginDiaInput id=marginDiaTop onchange='window.marDate(this)'><input class=marginDiaInput id=marginDiaRight onchange='window.marDate(this)'><input class=marginDiaInput id=marginDiaBottom onchange='window.marDate(this)'> </div>"
+        ));
+
+        var get = getMarginData($($(window.currselected).children()[0]));
+        $("#marginDiaLeft")[0].value = get[0];
+        $("#marginDiaTop")[0].value = get[1];
+        $("#marginDiaRight")[0].value = get[2];
+        $("#marginDiaBottom")[0].value = get[3];
+        if (name == "Img") {
+          $(make).append($.parseHTML("<h3>URL</h3><input id=inputSrc onchange='window.updateUrl(this)' value='" + ($(tarEle).attr("src") || "") + "' >"));
+        }
+      }
+    }
+    window.ctrlDown = false;
+
+    window.getOutput = function() {
+
+      var ret = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<title>TITLE<\/title>\r\n--CODE--\r\n<\/head>\r\n<body>\r\n--HTML--\r\n\r\n<\/body>\r\n<\/html>\r\n";
+      ret = ret.replace('--CODE--', '<script\r\n  src=\"https:\/\/code.jquery.com\/jquery-3.3.1.js\"\r\n  integrity=\"sha256-2Kok7MbOyxpgUVvAk\/HJ2jigOSYS2auK4Pfzbm7uH60=\"\r\n  crossorigin=\"anonymous\"><\/script>');
+      ret = ret.replace('--HTML--', $("#editor_elements")[0].innerHTML);
+      console.log(ret);
+      return (ret);
+    }
+    window.updateUrl = function(e) {
+      console.log($($(window.currselected).children()[0])[0]);
+
+      $($($(window.currselected).children()[0])[0]).attr("src", e.value);
+
+    }
+    window.marDate = function(e) {
+      var get = getMarginData($($(window.currselected).children()[0]));
+      var id = e.id;
+      if (id == "marginDiaLeft") {
+        get[0] = e.value;
+      }
+      if (id == "marginDiaTop") {
+        get[1] = e.value;
+      }
+      if (id == "marginDiaRight") {
+        get[2] = e.value;
+      }
+      if (id == "marginDiaBottom") {
+        get[3] = e.value;
+      }
+      useMarginData($($(window.currselected).children()[0]), get[0], get[1], get[2], get[3]);
+    }
+
+    function useMarginData(elem, _left, _top, _right, _bottom) { //eg 100px
+      var left = _left.replace(/\s/g, '');
+      var top = _top.replace(/\s/g, '');
+      var right = _right.replace(/\s/g, '');
+      var bottom = _bottom.replace(/\s/g, '');
+
+      $(elem).attr("margs", JSON.stringify([left, top, right, bottom]));
+      $(elem).css("left", left);
+      $(elem).css("top", top);
+      $(elem).css("width", "calc(100% - " + left + " - " + right + ")");
+      $(elem).css("height", "calc(100% - " + top + " - " + bottom + ")");
+    }
+
+    function getMarginData(elem) {
+      var attr = $(elem).attr("margs");
+      if (attr) {
+        return (JSON.parse(attr));
+      } else {
+        useMarginData(elem, "0px", "0px", "0px", "0px");
+        return (getMarginData(elem));
+      }
+    }
+
+
+    function editor_getCanvasX() {
+      return ($($("#editor_canv")[0]).width());
+    }
+
+    function editor_getCanvasY() {
+      return ($($("#editor_canv")[0]).height());
+    }
+
+    function editor_getBoxSize() {
+      return (editor_getCanvasX() / 20);
+    }
+    window.currselected = null;
+
+    function makeDragable(elem) {
+      $(elem).mousedown(function(e) {
+        elem.dragging = $(elem).clone().appendTo("body")[0];
+        elem.dragging.mousestartx = e.clientX;
+        elem.dragging.mousestarty = e.clientY;
+        epos = $(elem).offset();
+        elem.dragging.starty = epos.top;
+        elem.dragging.startx = epos.left;
+        elem.dragging.style.top = (elem.dragging.starty) + "px";
+        elem.dragging.style.left = (elem.dragging.startx) + "px";
+
+        $(window).mousemove(function(e) {
+            if (elem.dragging) {
+              elem.dragging.style.left = (elem.dragging.startx + (e.clientX - elem.dragging.mousestartx)) + "px";
+              elem.dragging.style.top = (elem.dragging.starty + (e.clientY - elem.dragging.mousestarty)) + "px";
+            }
+          })
+          .mouseup(function(e) {
+            if (elem.dragging) {
+              if (window.mouse.x >= 0 && window.mouse.x <= 20 && window.mouse.y >= 0) {
+                var type = elem.dragging.innerHTML.toLowerCase();
+                type = type == "box" ? "div" : type;
+                type = type == "image" ? "img" : type;
+
+
+                var add = editor_addAdvancedElement(type, Math.floor(window.mouse.x), Math.floor(window.mouse.y));
+                window.currselected = add;
+
+                elemUpdate();
+                window.resizeFunction();
+              }
+              $(elem.dragging).remove();
+              elem.dragging = null
+
+            }
+          });
+
+      });
+
+
+
+
+    }
+
+    function fixElem(elem) {
+      var bounds = editor_getElemPos(elem);
+      editor_moveElement(elem,
+        Math.min(bounds[0], bounds[2]), Math.min(bounds[1], bounds[3]), Math.max(bounds[0], bounds[2]), Math.max(bounds[1], bounds[3]));
+    }
+
+    function editor_getSection(mx, my, bounds) {
+      return (_editor_getSection(mx, my, Math.min(bounds[0], bounds[2]), Math.min(bounds[1], bounds[3]), Math.max(bounds[0], bounds[2]) + 1, Math.max(bounds[1], bounds[3]) + 1));
+      //range:-1,0,1
+    }
+
+    function _editor_getSection(mx, my, x1, y1, x2, y2) {
+      var edge = .67;
+      if (!(x1 <= mx && mx <= x2 && y1 <= my && my <= y2)) {
+        return null;
+      }
+      var retx = 0;
+      if (x1 + edge > mx) {
+        retx = -1;
+      }
+      if (x2 - edge < mx) {
+        retx = 1;
+      }
+      var rety = 0;
+      if (y1 + edge > my) {
+        rety = -1;
+      }
+      if (y2 - edge < my) {
+        rety = 1;
+      }
+      return [retx, rety];
+      //range:-1,0,1
+    }
+
+    $(window).on('load', function() {
+
+
+      $(document).keydown(function(e) {
+        if (e.keyCode == 17 || e.keyCode == 91) window.ctrlDown = true;
+        if (e.keyCode == 67) {
+          window.copyandpaste = $(window.currselected).clone();
+        }
+        if (e.keyCode == 86) {
+
+          $(window.copyandpaste).clone().appendTo("body");
+        }
+      }).keyup(function(e) {
+        if (e.keyCode == 17 || e.keyCode == 91) window.ctrlDown = false;
+      });
+      $(window).keyup(function(e) {
+        if (e.keyCode == 46 || e.keyCode == 8) {
+          $(window.currselected).remove();
+          editor_checkHeights();
+        }
+      });
+      $(".editor_dragable").each(function(i) {
+        makeDragable(this);
+      });
+      $(window).resize(function() {
+        window.editor_canvasRefresh();
+
+      });
+      window.editor_canvasRefresh = editor_canvasRefresh;
+      window.mouse = {
+        "x": 0,
+        "y": 0
+      };
+      editor_canvasRefresh();
+
+
+
+      window.resizeFunction();
+      setInterval(function() {
+        editor_frame();
+      }, 40);
+
+
+      $(window).mousemove(function(evt) {
+
+        var x = (evt.pageX - $('#editor_elements').offset().left) + $('#editor_elements').scrollLeft();
+        var y = (evt.pageY - $('#editor_elements').offset().top) + $('#editor_elements').scrollTop();
+        x = x / ($($("#editor_canv")[0]).width() / 20);
+        y = y / ($($("#editor_canv")[0]).width() / 20);
+
+        window.mouse.x = x;
+        window.mouse.y = y;
+      });
+      window.mouse.down = false;
+      window.mouse.drag = {
+        "is": false,
+        "elem": null,
+        "start": [0, 0],
+        "elemstart": [0, 0, 0, 0],
+        "mode": [0, 0]
+      };
+
+      $(window)
+        .mousedown(function() {
+          window.mouse.down = true;
+          var touching = editor_getHoveredElements();
+          if (touching.length > 0) {
+            window.mouse.drag.is = true;
+            window.mouse.drag.elem = (touching[0]);
+            window.mouse.drag.mode = editor_getSection(window.mouse.x, window.mouse.y, editor_getElemPos(touching[0]));
+            window.mouse.drag.start = [window.mouse.x, window.mouse.y];
+            window.mouse.drag.elemstart = editor_getElemPos(touching[0]);
+            window.currselected = touching[0];
+            elemUpdate();
+          }
+        })
+        .mousemove(function() {
+          if (window.mouse.drag.is) {
+            if (window.mouse.drag.mode[0] == 0 && window.mouse.drag.mode[1] == 0) {
+              var movex = Math.round(window.mouse.x - window.mouse.drag.start[0]);
+              var movey = Math.round(window.mouse.y - window.mouse.drag.start[1]);
+              if (movex || movey) {
+                $(window.mouse.drag.elem).appendTo(window.mouse.drag.elem.parentElement);
+              }
+              editor_moveElement(window.mouse.drag.elem, window.mouse.drag.elemstart[0] + movex, window.mouse.drag.elemstart[1] + movey, window.mouse.drag.elemstart[2] + movex, window.mouse.drag.elemstart[3] + movey);
+            } else {
+              if (window.mouse.drag.mode[0] != 0) {
+                if (window.mouse.drag.mode[0] < 0) {
+                  editor_moveElement(window.mouse.drag.elem, Math.floor(window.mouse.x), null, null, null);
+
+                } else {
+                  editor_moveElement(window.mouse.drag.elem, null, null, Math.floor(window.mouse.x), null);
+
+                }
+              }
+              if (window.mouse.drag.mode[1] != 0) {
+                if (window.mouse.drag.mode[1] < 0) {
+                  editor_moveElement(window.mouse.drag.elem, null, Math.floor(window.mouse.y), null, null);
+
+                } else {
+                  editor_moveElement(window.mouse.drag.elem, null, null, null, Math.floor(window.mouse.y));
+
+                }
+              }
+              fixElem(window.mouse.drag.elem);
+            }
+          }
+        })
+        .mouseup(function() {
+          if (window.mouse.drag.is) {
+            if (window.mouse.drag.mode[0] == 0 && window.mouse.drag.mode[1] == 0 && !(window.mouse.x >= 0 && window.mouse.x <= 20 && window.mouse.y >= 0)) {
+              $(window.mouse.drag.elem).remove();
+              editor_checkHeights();
+            }
+          }
+          window.mouse.down = false;
+          window.mouse.drag.is = false;
+
+        });
+    });
+
+    function editor_frame() {
+      editor_canvasRefresh();
+      /*
+  editor_getHoveredElements().forEach(function(element) {
+    var pos = editor_getElemPos(element);
+    console.log(editor_getSection(window.mouse.x, window.mouse.y, pos));
+    //editor_moveElement(element, pos[0], pos[1], pos[2], pos[3] - 1);
+  });
+	*/
+
+      editor_checkHeights();
+
+    }
+
+    function editor_canvasRefresh() {
+      var canv = $("#editor_canv")[0];
+      var ctx = canv.getContext("2d");
+      var width = $(canv).width();
+      var height = $(canv).height();
+      canv.width = width;
+      canv.height = height;
+      var boxsize = canv.width / 20;
+
+      ctx.lineWidth = 0;
+      ctx.strokeStyle = "gray";
+      for (var i = boxsize; i < width; i += boxsize) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, canv.height);
+        ctx.stroke();
+      }
+      for (var i = boxsize; i < height; i += boxsize) {
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(canv.width, i);
+        ctx.stroke();
+      }
+      $(".scaledElement").each(function(i) {
+        ctx.lineWidth = this == window.currselected ? 4 : 2;
+        ctx.strokeStyle = this == window.currselected ? "#18578e" : "black";
+        var pos = editor_getElemPos(this);
+        ctx.beginPath();
+        var boxsize = editor_getBoxSize();
+        var x1 = pos[0] * boxsize;
+        var y1 = pos[1] * boxsize;
+        var x2 = (pos[2] + 1) * boxsize;
+        var y2 = (pos[3] + 1) * boxsize;
+        x2 -= x1;
+        y2 -= y1;
+        ctx.rect(x1, y1, x2, y2);
+        ctx.stroke();
+      });
+
+
+    }
+
+
+
+    function editor_moveElement(elem, x1, y1, x2, y2) {
+      var old = editor_getElemPos(elem);
+      $(elem).attr("pos", JSON.stringify([x1 != null ? x1 : old[0], y1 != null ? y1 : old[1], x2 != null ? x2 : old[2], y2 != null ? y2 : old[3]]));
+      window.resizeFunction();
+
+    }
+
+
+    function editor_createElement(type, x1, y1, x2, y2) {
+      var ret = document.createElement(type);
+      $(ret).attr("pos", JSON.stringify([x1, y1, x2, y2]));
+      $(ret).attr("class", "scaledElement");
+      ret.style.position = "absolute";
+
+      return ret;
+    }
+
+    function editor_addAdvancedElement(type, x, y) {
+      var cont = editor_createElement("div", x, y, x + 2, y + 2);
+
+      var add = document.createElement(type);
+
+      add.style.position = "relative";
+      add.style.padding = "0px";
+      cont.appendChild(add);
+
+      $("#editor_elements")[0].appendChild(cont);
+      return (cont);
+    }
+
+    function editor_checkHeights() {
+      if ($(".scaledElement").length > 0) {
+
+        var maxH = 0;
+        var cont = $($(".scaledElement")[0].parentElement);
+        var contH = cont.height();
+        $(".scaledElement").each(function(i) {
+          maxH = Math.max(maxH, $(this).position().top + $(this).height());
+        });
+
+        if ((contH) < (maxH + 150)) {
+          cont.height((maxH + 150));
+          $("#editor_canv").height((maxH + 150));
+          editor_canvasRefresh();
+        }
+        if (contH > (maxH + 150) && contH > $("#editor_contentwrapper").height() - 150) {
+          cont.height((maxH + 150));
+          $("#editor_canv").height((maxH + 150));
+          editor_canvasRefresh();
+        }
+
+      }
+      if ($("#editor_elements").height() < $("#editor_contentwrapper").height() - 150) {
+        $("#editor_elements").height($("#editor_contentwrapper").height() - 150);
+        $("#editor_canv").height($("#editor_contentwrapper").height() - 150);
+        editor_canvasRefresh();
+      }
+    }
+
+    function editor_getHoveredElements() {
+      var ret = [];
+      var loopthu = $(".scaledElement");
+
+      for (var i = loopthu.length - 1; i >= 0; i--) {
+        element = loopthu[i];
+        var elempos = editor_getElemPos(element);
+        if (elempos[0] < window.mouse.x && window.mouse.x < 1 + elempos[2] && elempos[1] < window.mouse.y && window.mouse.y < 1 + elempos[3]) {
+          ret.push(element);
+        }
+      }
+
+      function compare(a, b) {
+        if (a.style.zIndex < b.style.zIndex)
+          return -1;
+        if (a.style.zIndex > b.style.zIndex)
+          return 1;
+        return 0;
+      }
+      ret.sort(compare);
+      return ret;
+    }
+
+    function editor_getElemPos(elem) {
+
+      return (JSON.parse($(elem).attr("pos")));
+    }
+  </script>
 </body>
+
 </html>
