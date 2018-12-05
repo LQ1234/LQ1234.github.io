@@ -1,11 +1,11 @@
 {
   "Home":"index.html",
 
-   "Autoclicker":"autoclicker.html",
    "Autoencoder":"autoencoder.html",
    "Multiplayer game":"io.html",
 
    "Other":{
+      "Autoclicker":"autoclicker.html",
       "HTML grid generator":"htmlgrid.html",
       "Minecraft auto reply":"autoreply.html",
       "Password Generator":"passwordgen.html",
