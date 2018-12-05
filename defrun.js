@@ -41,9 +41,11 @@ window.onload = function() {
         list.appendChild(nw);
       } else {
         var nwc = document.createElement("li");
+        nwc.setAttribute("onclick"," ")
         list.appendChild(nwc);
         nwc.className = "dropdown";
         nwc.innerHTML += tn;
+
         nwc.innerHTML += "<span class=texticon>&#8801;</span>";
 
         var ddi = document.createElement("div");
