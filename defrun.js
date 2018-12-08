@@ -1,3 +1,10 @@
+var style = document.createElement('style');
+style.type = 'text/css';
+style.appendChild(document.createTextNode("body{display:none;}"));
+var head=document.head;
+head.insertBefore(style, head.firstChild);
+
+
 window.onload = function() {
   fetch('https://larrys.tech/files.json')
     .then(function(response) {
@@ -41,7 +48,7 @@ window.onload = function() {
         list.appendChild(nw);
       } else {
         var nwc = document.createElement("li");
-        nwc.setAttribute("onclick"," ")
+        nwc.setAttribute("onclick", " ")
         list.appendChild(nwc);
         nwc.className = "dropdown";
         nwc.innerHTML += tn;
@@ -65,27 +72,28 @@ window.onload = function() {
     var spacefiller = document.createElement("div");
     spacefiller.id = "spacefiller";
     document.body.insertBefore(spacefiller, document.body.childNodes[1]);
-    if(window.jQuery){
-      var n = function() {
+
+    var n = function() {
+      var pu=function() {
+
         $("#spacefiller")[0].style.height = ($("#header").height() + 15) + "px";
-      }
-      $(window).resize(n);
+      };
+      $("#header").ready(pu);
+      $(window).resize(pu);
+      window.setTimeout(pu,1000);
+    }
+    if (window.jQuery) {
       n();
-    }else{
+    } else {
 
-    var src = document.createElement("script");
-    src.src = "https://code.jquery.com/jquery-3.3.1.slim.min.js";
-    head.insertBefore(src, head.childNodes[0]);
+      var src = document.createElement("script");
+      src.src = "https://code.jquery.com/jquery-3.3.1.slim.min.js";
+      head.insertBefore(src, head.childNodes[0]);
 
-    src.onload = function() {
-
-      var n = function() {
-        $("#spacefiller")[0].style.height = ($("#header").height() + 15) + "px";
-      }
-      $(window).resize(n);
-      n();
-    };
-  }
+      src.onload = function() {
+        n();
+      };
+    }
   }
 
 
@@ -95,7 +103,7 @@ window.onload = function() {
   defcss.type = "text/css";
   defcss.rel = "stylesheet";
   defcss.href = "defcss.css";
-  head.insertBefore(defcss, head.childNodes[0]);
+  head.appendChild(defcss);
 
   defcss.onload = function() {
     var bMobile =
@@ -118,6 +126,5 @@ window.onload = function() {
   link2.rel = "stylesheet";
   link2.href = "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css";
   head.insertBefore(link2, head.childNodes[0]);
-
 
 };
