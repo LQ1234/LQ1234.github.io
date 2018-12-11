@@ -1,4 +1,13 @@
+var TESTING=false;
+
 var lastframe=Date.now();
+var lastdata=Date.now();
+var lastdatadisplay=0;
+var lastping=Date.now();
+var lastpingdisplay=0;
+
+
+
 var supposedScreenSize = {
   'x': 2400,
   'y': 1400
@@ -11,7 +20,12 @@ var playerSize=[-5,-5,5,5];
 var entitySize={
   0:[-5,-5,5,5]
 }
-var ipaddress="https://server.larrys.tech:9999"
+if(TESTING){
+var ipaddress="http://localhost:9999";
+}else{
+var ipaddress="https://server.larrys.tech:9999";
+
+}
 var cam={
   x:0,
   y:0,
@@ -203,7 +217,13 @@ function drawFG(ctx) {
   ctx.fillStyle = 'white';
 
   ctx.fillText("FPS: "+(1000/(Date.now()-lastframe)).toFixed(0)+"/20",-1150,-650);
-  lastframe=Date.now();
+  if(Date.now()-1000>lastdata){
+    lastdatadisplay=0;
+  }
+  ctx.fillText("UPS: "+(lastdatadisplay).toFixed(0)+"/20",-1150,-605);
+
+  ctx.fillText("Ping: "+(lastpingdisplay).toFixed(0)+"ms",-1150,-560);
+lastframe=Date.now();
 
 }
 
@@ -453,10 +473,18 @@ function Player(){
 }
 /*    SOCK   */
 
+if(TESTING){
+var socket = io.connect(ipaddress);
+}else{
+  var socket = io.connect(ipaddress, {secure: true});
 
-var socket = io.connect(ipaddress, {secure: true});
-
+}
+socket.on('pong', (latency) => {
+ console.log("her")
+});
 socket.on(schemapacks.playerUpdateSchema.id, function(msg){
+  lastdatadisplay=1000/(Date.now()-lastdata);
+  lastdata=Date.now();
   bodyuser= decodeObject("player",msg);
   putArray(world.players,bodyuser);
 });
@@ -493,6 +521,14 @@ socket.on(schemapacks.otherPlayerUpdateSchema.id, function(msg){
   }
 });
 
+socket.on("Ipong",function(msg){
+  lastpingdisplay=Date.now()-lastping;
+
+});
+window.setInterval(()=>{
+  socket.emit("Iping","")
+  lastping=Date.now();
+},1000)
 
 
 /*               EXER               */
