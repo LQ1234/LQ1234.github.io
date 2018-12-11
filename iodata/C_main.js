@@ -11,7 +11,7 @@ var playerSize=[-5,-5,5,5];
 var entitySize={
   0:[-5,-5,5,5]
 }
-var ipaddress="http://server.larrys.tech:9999"
+var ipaddress="https://server.larrys.tech:9999"
 var cam={
   x:0,
   y:0,
@@ -454,7 +454,7 @@ function Player(){
 /*    SOCK   */
 
 
-var socket = io.connect(ipaddress);
+var socket = io.connect(ipaddress, {secure: true});
 
 socket.on(schemapacks.playerUpdateSchema.id, function(msg){
   bodyuser= decodeObject("player",msg);
