@@ -1,0 +1,296 @@
+.lc_svgIconHamburger {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 10 10'%3E%3Crect x='1.5' y='2.5' width='7' height='1' style='fill:black' /%3E%3Crect x='1.5' y='4.5' width='7' height='1' style='fill:black;stroke:black;stroke-width:0' /%3E%3Crect x='1.5' y='6.5' width='7' height='1' style='fill:black;stroke:black;stroke-width:0' /%3E%3C/svg%3E");
+}
+
+.lc_svgIconDownload {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 10 10'%3E%3Cpolygon points='3.5,2 6.5,2 6.5,6 7.5,6 5,8.25 2.5,6 3.5,6' style='fill:none;stroke:black;stroke-width:.5' /%3E%3C/svg%3E");
+}
+
+.lc_svgIconX {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 10 10'%3E%3Cpolygon points='2,2 8,8' style='fill:none;stroke:black;stroke-width:.8' /%3E%3Cpolygon points='2,8 8,2' style='fill:none;stroke:black;stroke-width:.8' /%3E%3C/svg%3E");
+}
+
+.lc_svgIconPlus {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 10 10'%3E%3Cpolygon points='5,1.5 5,8.5' style='fill:none;stroke:black;stroke-width:.8' /%3E%3Cpolygon points='1.5,5 8.5,5' style='fill:none;stroke:black;stroke-width:.8' /%3E%3C/svg%3E");
+}
+
+/*https://jsfiddle.net/hfjewp07/3/*/
+button {
+  padding: 2px;
+}
+
+span.lc_svgIconHamburger {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+span.lc_svgIconDownload {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+span.lc_svgIconX {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+span.lc_svgIconPlus {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+body {
+  font-family: Helvetica;
+  background-color: white;
+  font-size: 1.1em;
+}
+
+div.lc_dropdown {
+  position: relative;
+  /*https://stackoverflow.com/a/9404641/5771000*/
+  display: inline-block;
+  border: black solid 1px;
+  padding: 6px;
+}
+
+div.lc_dropdown:hover .lc_dropdownoptions {
+  display: block;
+}
+
+div.lc_dropdown:hover {
+  background-color: lightgray;
+}
+
+div.lc_dropdown .lc_dropdownoptions {
+  position: absolute;
+  border: red solid 1px;
+  width: 100%;
+  display: none;
+  background-color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  margin-left: -7px;
+  /* -border-padding */
+  margin-top: 6px;
+  /* padding */
+  z-index: 2;
+}
+
+#lc_header div.lc_dropdown {
+  position: relative;
+  /*https://stackoverflow.com/a/9404641/5771000*/
+  display: inline-block;
+  border: lightgray solid 1px;
+  padding-left: 9px;
+  padding-right: 9px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  min-width: 140px;
+  border-bottom: gray solid 0px;
+}
+
+.lc_mobile #lc_header .fullwidth .lc_dropdown {
+  box-sizing: border-box;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  border: lightgray solid 1px;
+}
+
+#lc_nav *:not(:first-child) {
+  margin-left: 10px;
+}
+
+.lc_mobile #lc_nav.fullwidth * {
+  margin-left: 0px;
+  margin-bottom: 10px;
+}
+
+.lc_mobile #lc_nav.fullwidth .lc_dropdown * {
+  margin-bottom: 0px;
+}
+
+
+
+#lc_header div.lc_dropdown .lc_dropdownoptions * {
+  margin-left: 0px;
+  /* -border-padding */
+  /* padding */
+}
+
+#lc_header .fullwidth .lc_dropdown {
+  margin-right: 10px;
+  border: lightgray solid 1px;
+}
+
+#lc_nav.fullwidth * {
+  margin-left: 0px;
+  margin-bottom: 10px;
+}
+
+#lc_nav.fullwidth .lc_dropdown * {
+  margin-left: 0px;
+  margin-bottom: 0px;
+}
+
+#lc_header div.lc_dropdown .lc_dropdownoptions {
+  border: lightgray solid 1px;
+  width: 100%;
+  background-color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: -10px;
+  /* -border-padding */
+  margin-top: 8px;
+  /* padding */
+}
+
+#lc_header div.lc_dropdown .lc_dropdownoptions {
+  border-top: red solid 0px;
+}
+
+#lc_header div.lc_dropdown .lc_dropdownoptions * {
+  border-top: lightgray solid 1px;
+  padding-left: 9px;
+  padding-right: 9px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+#lc_header div.lc_dropdown .lc_dropdownoptions *:hover {
+  background-color: #e6e6e6;
+}
+
+#lc_header div.lc_dropdown .lc_dropdownoptions :first-child {
+  border-top: red solid 0px;
+}
+
+body {
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+body.lc_mobile {
+  margin-left: 8%;
+  margin-right: 8%;
+}
+
+#lc_header {
+  background-color: white;
+  width: 100%;
+  display: block;
+}
+
+.lc_banner .lc_bannerIcon {
+  position: absolute;
+  right: 9px;
+  top: calc(50% - .75em);
+  text-align: center;
+  width: 1.5em;
+  height: 1.5em;
+  font-size: 1em;
+  line-height: 1.5em;
+}
+
+.lc_banner {
+  position: relative;
+  background-color: white;
+  padding: 8px;
+  border: red solid 1px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+#lc_header::after {
+  z-index: -1;
+  display: block;
+  left: 0px;
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(lightgray, rgba(255, 255, 255, 0));
+}
+
+.lc_caphidden {
+  padding: 6px;
+  float: right;
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+  border: black solid 1px;
+}
+
+.lc_hidden.lc_hidden.lc_hidden {
+  /*leet hacks*/
+  display: none;
+}
+
+body {
+  display: none;
+}
+
+#lc_header #name {
+  color: black;
+  font-variant: small-caps;
+  margin: 20px;
+  margin-bottom: 0px;
+  margin-top: 16px;
+  font-size: 50px;
+  text-align: center;
+}
+
+#lc_header #name span {
+  color: gray;
+}
+
+#lc_header .lc_dropdown a {
+  width: auto;
+  font-size: normal;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  text-overflow: ellipsis;
+}
+
+#lc_header a .lc_dropdown {
+  color: black;
+  text-decoration: none;
+}
+
+a:link {
+  color: #0099cc;
+}
+
+a:visited {
+  color: #0099cc;
+}
+
+a:hover {
+  color: #00bfff;
+}
+
+a:active {
+  color: #66d9ff;
+}
+
+#lc_header #subname {
+  color: black;
+  font-variant: small-caps;
+  margin: 10px;
+  margin-top: 0px;
+  font-size: 20px;
+  text-align: center;
+}

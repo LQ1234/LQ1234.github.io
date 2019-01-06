@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IO game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.4/seedrandom.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+  <script src="files.js"></script>
+  <script src="default.js"></script>
+  <link rel="stylesheet" type="text/css" href="default.css">
+
   <link rel="stylesheet" type="text/css" href="iodata/C_style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.4/seedrandom.min.js"></script>
   <script src=iodata/socket.io.js></script>
@@ -9,12 +16,16 @@
   <script src=iodata/schemapacks.js></script>
   <script src=iodata/math.js></script>
   <script src=iodata/C_main.js></script>
-
+  <title>IO game</title>
 
 </head>
 <body>
-  <canvas id=bg></canvas>
-  <div id=_LOADIMG>
-
+  <div id=lc_header>
+  </div>
+  <div id=lc_content>
+    <canvas id=bg></canvas>
+    <div id=_LOADIMG>
+  </div>
 </body>
+
 </html>
