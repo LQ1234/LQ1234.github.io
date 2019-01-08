@@ -95,8 +95,11 @@ $(function() {
 
       spi.innerHTML=itmsi;
       var dds=Object.keys(itmse);
-      for (var i = 0; i < dds.length; i++) {
-        var ddsi=dds[i];
+      console.log(dds.length);
+
+
+      for (var j = 0; j < dds.length; j++) {
+        var ddsi=dds[j];
         var ddse=itmse[ddsi];
         var lts = document.createElement("div");
 
