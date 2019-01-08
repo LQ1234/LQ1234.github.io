@@ -608,8 +608,9 @@ window.onkeydown = function(e) {
   }
   keyboard[e.key] = true;
   keyboard.code[e.keyCode] = true;
-
-
+  if([37,38,39,40,32].includes(e.keyCode)){
+    e.preventDefault();
+  }
 }
 window.onkeyup = function(e) {
   if(keyboard[e.key]&&([37,38,39,40,87,83,65,68].includes(e.keyCode))){
@@ -617,7 +618,10 @@ window.onkeyup = function(e) {
   }
   keyboard[e.key] = false;
   keyboard.code[e.keyCode] = false;
+  if([37,38,39,40,32].includes(e.keyCode)){
 
+  e.preventDefault();
+}
 }
 
 function Point(x, y) {

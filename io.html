@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
@@ -8,23 +9,52 @@
   <script src="files.js"></script>
   <script src="default.js"></script>
   <link rel="stylesheet" type="text/css" href="default.css">
+  <title>Multiplayer game</title>
+  <style>
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+    }
 
-  <link rel="stylesheet" type="text/css" href="iodata/C_style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.4/seedrandom.min.js"></script>
-  <script src=iodata/socket.io.js></script>
-  <script src=iodata/schemapack.min.js></script>
-  <script src=iodata/schemapacks.js></script>
-  <script src=iodata/math.js></script>
-  <script src=iodata/C_main.js></script>
-  <title>IO game</title>
+    .container {
+      width: 100%;
+      padding-top: 56.25%;
+      position: relative;
 
+    }
+  </style>
+  <script>
+  $(function(){
+    if(lc.mobile){
+      var banner = document.createElement("div");
+
+      $(banner).addClass( "lc_banner");
+      banner.innerHTML="Warning: Might not work on mobile!";
+      $(banner).insertBefore($(".container")[0])
+    }
+  });
+  </script>
 </head>
+
 <body>
   <div id=lc_header>
   </div>
   <div id=lc_content>
-    <canvas id=bg></canvas>
-    <div id=_LOADIMG>
+    <h1>Multiplayer game</h1>
+    <p>Inspired by <a href="http://cubee.io/">cubee.io</a>.</p>
+
+    <h2>Controls:</h2>
+    <p>WASD / &#8678;&#8679;&#8680;&#8681; / Mouse <strong>:  </strong>Movement</p>
+    <h3>Still WIP!</h3>
+    <div class=container>
+        <iframe src="iodata/C_index.html">ERROR</iframe>
+    </div>
+
   </div>
 </body>
 

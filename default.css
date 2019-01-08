@@ -19,6 +19,27 @@ button {
   padding: 2px;
 }
 
+#lc_nav{
+
+
+}
+#lc_content{
+  padding-bottom: 40px;
+}
+
+
+body {
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+body.lc_mobile {
+  margin-left: 8%;
+  margin-right: 8%;
+}
+
+
+
 span.lc_svgIconHamburger {
   width: 1em;
   height: 1em;
@@ -204,6 +225,8 @@ body.lc_mobile {
 .lc_banner {
   position: relative;
   background-color: white;
+  color:red;
+  background-color:#ffc4c4;
   padding: 8px;
   border: red solid 1px;
   margin-top: 10px;

@@ -6,7 +6,6 @@ var files={
 
    "Other":{
       "Autoclicker":"autoclicker.html",
-      "Minecraft auto reply":"autoreply.html",
       "Password Generator":"passwordgen.html"
    }
 }
