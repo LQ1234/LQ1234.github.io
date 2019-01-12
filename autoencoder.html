@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
@@ -7,10 +8,40 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
   <script src="files.js"></script>
   <script src="default.js"></script>
+  <script src="autoencoder/oboe-browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+  <script src="buffer.js"></script>
   <link rel="stylesheet" type="text/css" href="default.css">
   <title>Autoencoder</title>
+  <style>
+    #inv {
+      display: none;
+    }
 
+    .ele {
+      border: 1px solid lightgray;
+      display: inline-block;
+      margin: 5px;
+      clear: right;
+      padding: 0px;
+      vertical-align: top;
+    }
+
+    .nme {
+      background-color: lightgray;
+    }
+
+    .cont {
+      margin: 5px;
+      padding: 0px;
+    }
+
+    .spe {
+      border: 1px solid lightgray;
+    }
+  </style>
 </head>
+
 <body>
   <div id=lc_header>
   </div>
@@ -18,6 +49,278 @@
     <h1>WIP</h1>
     <p>This is still WIP, check in later!</p>
   </div>
+  <script>
+    oboe('https://server.larrys.tech/models/dense2.model')
+      .node('loss', function(item) {
+        console.log(item);
+      })
+      .node('optimizer', function(item) {
+        console.log(item);
+      })
+
+      .node('weights.*', function(item) {
+
+        // This callback will be called everytime a new object is
+        // found in the foods array.
+
+        console.log(item);
+      })
+      .done(function(things) {
+
+      });
+
+    var socket = io.connect('http://server.larrys.tech', {
+      secure: true,
+      //transports: ['websocket', 'polling', 'flashsocket']
+    });
+    socket.on('j', function(msg) {
+      var resmsg = "";
+      for (var i = 0; i < msg.length; i++) {
+        resmsg += String.fromCharCode(msg[i])
+      }
+
+      calc(resmsg);
+    });
+
+    function out(o) { //o is a buffer
+      socket.emit('j', o)
+    }
+
+    function calc(inp) {
+      var toks = inp.split(" ");
+      if (toks[0] === "clr") {
+
+        while (document.body.children.length > 1) {
+          document.body.removeChild(document.body.children[1]);
+        }
+        return;
+      }
+      var wrap;
+      if (!document.getElementById(toks[0])) {
+        wrap = document.createElement("div");
+        wrap.setAttribute("id", toks[0]);
+        wrap.setAttribute("class", "ele");
+        document.body.appendChild(wrap);
+        var name = document.createElement("div");
+        name.innerHTML = toks[0];
+        name.setAttribute("class", "nme");
+        wrap.appendChild(name);
+      } else {
+        wrap = document.getElementById(toks[0]);
+
+      }
+      if (toks[1] === "clr") {
+        while (wrap.children[1]) {
+          wrap.removeChild(wrap.children[1]);
+        }
+      }
+      var cont = document.createElement("div");
+      cont.setAttribute("class", "cont");
+      wrap.appendChild(cont);
+      if (toks[1] === "cam") {
+        var ne = document.createElement("canvas");
+        ne.setAttribute("width", toks[2]);
+        ne.setAttribute("height", toks[3]);
+        ne.setAttribute("class", "vdin");
+        ne.addEventListener('click', function() {
+          if (!this.pa > 0) {
+            var width = this.width;
+            var height = this.height;
+            this.pa = 50;
+            var opp = new Array(width * height * 3);
+            var imgd = this.getContext("2d").getImageData(0, 0, width, height);
+            var pix = imgd.data;
+
+            for (var i = 0, n = pix.length / 4; i < n; i++) {
+              opp[i] = (pix[4 * i]);
+              opp[i + width * height * 1] = (pix[4 * i + 1]);
+              opp[i + width * height * 2] = (pix[4 * i + 2]);
+            }
+            out(Buffer.concat([
+              Buffer(this.parentElement.parentElement.children[0].innerHTML +
+                " cam " + width + " " + height + " "), Buffer.from(opp)
+            ]));
+          }
+        });
+        var but = document.createElement("input");
+        but.setAttribute("type", "file");
+        but.setAttribute("accept", "image/*");
+        but.addEventListener("input", function(event) {
+          if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            var buu = this;
+
+            reader.onloadend = function(e) {
+              var im = document.createElement("img");
+              im.src = reader.result;
+              im.onload = function(e) {
+                var c = buu.parentElement.children[0];
+                var ctx = c.getContext('2d');
+
+                var badrat = im.width / im.height;
+                var goodrat = c.width / c.height;
+                var scale = 0;
+                if (badrat > goodrat) {
+                  scale = im.height / c.height;
+                } else {
+                  scale = im.width / c.width;
+                }
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, c.width, c.height);
+
+
+                ctx.drawImage(im,
+                  (c.width - im.width / scale) / 2,
+                  (c.height - im.height / scale) / 2,
+                  im.width / scale, im.height / scale);
+
+
+                c.pa = 50;
+
+                var width = c.width;
+                var height = c.height;
+                var opp = new Array(width * height * 3);
+                var imgd = ctx.getImageData(0, 0, width, height);
+                var pix = imgd.data;
+
+                for (var i = 0, n = pix.length / 4; i < n; i++) {
+                  opp[i] = (pix[4 * i]);
+                  opp[i + width * height * 1] = (pix[4 * i + 1]);
+                  opp[i + width * height * 2] = (pix[4 * i + 2]);
+                }
+                out(Buffer.concat([
+                  Buffer(c.parentElement.parentElement.children[0].innerHTML +
+                    " cam " + width + " " + height + " "), Buffer.from(opp)
+                ]));
+              }
+
+            };
+
+            reader.readAsDataURL(this.files[0]);
+          }
+          this.value = null;
+
+        });
+        cont.className += " spe";
+        cont.appendChild(ne)
+        cont.appendChild(document.createElement("br"))
+
+        cont.appendChild(but)
+      }
+      if (toks[1] === "inp") {
+        var ne = document.createElement("input");
+        ne.setAttribute('placeholder', inp.substring(toks[0].length + toks[1].length + 2))
+        ne.addEventListener("keyup", function(event) {
+          if (event.key === "Enter" && this.value.length) {
+            out(Buffer(this.parentElement.parentElement.children[0].innerHTML + " inp " + this.value));
+
+            this.value = "";
+          }
+        });
+        cont.appendChild(ne)
+      }
+      if (toks[1] === "htm") {
+        var par = inp.substring(toks[0].length + toks[1].length + 2);
+        cont.innerHTML = par;
+      }
+      if (toks[1] === "img") {
+
+        var msg = inp.substring(toks[0].length + toks[1].length + toks[2].length + toks[3].length + 4);
+        var width = toks[2],
+          height = toks[3],
+          buffer = new Uint8ClampedArray(width * height * 4);
+        for (var y = 0; y < height; y++) {
+          for (var x = 0; x < width; x++) {
+            var n = (y * width + x);
+            var pos = n * 4;
+            buffer[pos] = msg.charCodeAt(n);
+            buffer[pos + 1] = msg.charCodeAt(n + width * height * 1);
+            buffer[pos + 2] = msg.charCodeAt(n + width * height * 2);
+            buffer[pos + 3] = 255;
+          }
+        }
+        var canvas = document.createElement('canvas'),
+          ctx = canvas.getContext('2d');
+        canvas.width = width;
+        canvas.height = height;
+
+        var idata = ctx.createImageData(width, height);
+
+        idata.data.set(buffer);
+        ctx.putImageData(idata, 0, 0);
+
+        var dataUri = canvas.toDataURL();
+        var image = document.createElement("IMG");
+
+        image.src = dataUri
+        document.body.appendChild(image)
+
+        cont.appendChild(image);
+      }
+    }
+
+
+
+
+
+
+    const video = document.querySelector('video');
+    const vgaConstraints = {
+      video: {
+        width: {
+          min: 1
+        },
+        height: {
+          min: 1
+        }
+      }
+    };
+
+    navigator.mediaDevices.getUserMedia(vgaConstraints).
+    then((stream) => {
+      video.srcObject = stream
+    });
+
+    var v = document.getElementById("inv");
+
+    var cs = document.getElementsByClassName("vdin")
+
+    v.addEventListener('play', function() {
+
+
+      window.setInterval(function() {
+        var cs = document.getElementsByClassName("vdin")
+        for (var k = 0; k < cs.length; k++) {
+          var c = cs[k];
+
+          var ctx = c.getContext('2d');
+
+          var badrat = video.videoWidth / video.videoHeight;
+          var goodrat = c.width / c.height;
+          var scale = 0;
+          if (badrat > goodrat) {
+            scale = video.videoHeight / c.height;
+          } else {
+            scale = video.videoWidth / c.width;
+          }
+          if (c.pa > 0) {
+            c.pa--;
+
+            if (c.pa < 49) continue;
+
+          } else {
+            ctx.drawImage(v,
+              (c.width - video.videoWidth / scale) / 2,
+              (c.height - video.videoHeight / scale) / 2,
+              video.videoWidth / scale, video.videoHeight / scale);
+
+
+          }
+        }
+      }, 20);
+
+    }, false);
+  </script>
 </body>
 
 </html>
