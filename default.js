@@ -95,7 +95,6 @@ $(function() {
 
       spi.innerHTML=itmsi;
       var dds=Object.keys(itmse);
-      console.log(dds.length);
 
 
       for (var j = 0; j < dds.length; j++) {

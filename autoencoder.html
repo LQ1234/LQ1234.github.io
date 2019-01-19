@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
@@ -10,7 +11,7 @@
   <script src="default.js"></script>
   <script src="autoencoder/oboe-browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-  <script src="buffer.js"></script>
+  <script src="autoencoder/buffer.js"></script>
   <link rel="stylesheet" type="text/css" href="default.css">
   <title>Autoencoder</title>
   <style>
@@ -46,188 +47,62 @@
   <div id=lc_header>
   </div>
   <div id=lc_content>
-    <h1>WIP</h1>
-    <p>This is still WIP, check in later!</p>
-  </div>
-  <script>
-    oboe('https://server.larrys.tech/models/dense2.model')
-      .node('loss', function(item) {
-        console.log(item);
-      })
-      .node('optimizer', function(item) {
-        console.log(item);
-      })
+    <h1>Autoencoder</h1>
+    <p>This is an attempt to create an autoencoder for faces.</p>
+    <p>This was made in <a href="https://keras.io/">keras</a>, and the dataset was the <a href="http://vis-www.cs.umass.edu/lfw/">LFW dataset</a>.</p>
+    <p>Below is my attempt.</p>
+    <p>Also, the data is streamed!</p>
 
-      .node('weights.*', function(item) {
-
-        // This callback will be called everytime a new object is
-        // found in the foods array.
-
-        console.log(item);
-      })
-      .done(function(things) {
-
-      });
-
-    var socket = io.connect('http://server.larrys.tech', {
-      secure: true,
-      //transports: ['websocket', 'polling', 'flashsocket']
-    });
-    socket.on('j', function(msg) {
-      var resmsg = "";
-      for (var i = 0; i < msg.length; i++) {
-        resmsg += String.fromCharCode(msg[i])
-      }
-
-      calc(resmsg);
-    });
-
-    function out(o) { //o is a buffer
-      socket.emit('j', o)
-    }
-
-    function calc(inp) {
-      var toks = inp.split(" ");
-      if (toks[0] === "clr") {
-
-        while (document.body.children.length > 1) {
-          document.body.removeChild(document.body.children[1]);
-        }
-        return;
-      }
-      var wrap;
-      if (!document.getElementById(toks[0])) {
-        wrap = document.createElement("div");
-        wrap.setAttribute("id", toks[0]);
-        wrap.setAttribute("class", "ele");
-        document.body.appendChild(wrap);
-        var name = document.createElement("div");
-        name.innerHTML = toks[0];
-        name.setAttribute("class", "nme");
-        wrap.appendChild(name);
-      } else {
-        wrap = document.getElementById(toks[0]);
+    <style>
+      #lc_content {
+        position: relative;
 
       }
-      if (toks[1] === "clr") {
-        while (wrap.children[1]) {
-          wrap.removeChild(wrap.children[1]);
-        }
+
+      .tab {
+        display: inline-block;
+        border: gray solid 1px;
+        margin-top: 8px;
+        margin-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        min-width: 60px;
       }
-      var cont = document.createElement("div");
-      cont.setAttribute("class", "cont");
-      wrap.appendChild(cont);
-      if (toks[1] === "cam") {
-        var ne = document.createElement("canvas");
-        ne.setAttribute("width", toks[2]);
-        ne.setAttribute("height", toks[3]);
-        ne.setAttribute("class", "vdin");
-        ne.addEventListener('click', function() {
-          if (!this.pa > 0) {
-            var width = this.width;
-            var height = this.height;
-            this.pa = 50;
-            var opp = new Array(width * height * 3);
-            var imgd = this.getContext("2d").getImageData(0, 0, width, height);
-            var pix = imgd.data;
 
-            for (var i = 0, n = pix.length / 4; i < n; i++) {
-              opp[i] = (pix[4 * i]);
-              opp[i + width * height * 1] = (pix[4 * i + 1]);
-              opp[i + width * height * 2] = (pix[4 * i + 2]);
-            }
-            out(Buffer.concat([
-              Buffer(this.parentElement.parentElement.children[0].innerHTML +
-                " cam " + width + " " + height + " "), Buffer.from(opp)
-            ]));
-          }
-        });
-        var but = document.createElement("input");
-        but.setAttribute("type", "file");
-        but.setAttribute("accept", "image/*");
-        but.addEventListener("input", function(event) {
-          if (this.files && this.files[0]) {
-            var reader = new FileReader();
-            var buu = this;
-
-            reader.onloadend = function(e) {
-              var im = document.createElement("img");
-              im.src = reader.result;
-              im.onload = function(e) {
-                var c = buu.parentElement.children[0];
-                var ctx = c.getContext('2d');
-
-                var badrat = im.width / im.height;
-                var goodrat = c.width / c.height;
-                var scale = 0;
-                if (badrat > goodrat) {
-                  scale = im.height / c.height;
-                } else {
-                  scale = im.width / c.width;
-                }
-                ctx.fillStyle = "white";
-                ctx.fillRect(0, 0, c.width, c.height);
-
-
-                ctx.drawImage(im,
-                  (c.width - im.width / scale) / 2,
-                  (c.height - im.height / scale) / 2,
-                  im.width / scale, im.height / scale);
-
-
-                c.pa = 50;
-
-                var width = c.width;
-                var height = c.height;
-                var opp = new Array(width * height * 3);
-                var imgd = ctx.getImageData(0, 0, width, height);
-                var pix = imgd.data;
-
-                for (var i = 0, n = pix.length / 4; i < n; i++) {
-                  opp[i] = (pix[4 * i]);
-                  opp[i + width * height * 1] = (pix[4 * i + 1]);
-                  opp[i + width * height * 2] = (pix[4 * i + 2]);
-                }
-                out(Buffer.concat([
-                  Buffer(c.parentElement.parentElement.children[0].innerHTML +
-                    " cam " + width + " " + height + " "), Buffer.from(opp)
-                ]));
-              }
-
-            };
-
-            reader.readAsDataURL(this.files[0]);
-          }
-          this.value = null;
-
-        });
-        cont.className += " spe";
-        cont.appendChild(ne)
-        cont.appendChild(document.createElement("br"))
-
-        cont.appendChild(but)
+      .tabcontent {
+        border: gray solid 1px;
+        padding: 10px;
+        padding-top: 10px;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        margin-top: 7px;
+        min-height: 100%;
+        margin-bottom: 10px;
       }
-      if (toks[1] === "inp") {
-        var ne = document.createElement("input");
-        ne.setAttribute('placeholder', inp.substring(toks[0].length + toks[1].length + 2))
-        ne.addEventListener("keyup", function(event) {
-          if (event.key === "Enter" && this.value.length) {
-            out(Buffer(this.parentElement.parentElement.children[0].innerHTML + " inp " + this.value));
 
-            this.value = "";
-          }
-        });
-        cont.appendChild(ne)
-      }
-      if (toks[1] === "htm") {
-        var par = inp.substring(toks[0].length + toks[1].length + 2);
-        cont.innerHTML = par;
-      }
-      if (toks[1] === "img") {
+      .red {
+        color: red;
 
-        var msg = inp.substring(toks[0].length + toks[1].length + toks[2].length + toks[3].length + 4);
-        var width = toks[2],
-          height = toks[3],
+      }
+
+      .bold {
+        font-weight: bolder;
+
+      }
+    </style>
+
+    <div id=disp class=bold>
+      LOADING...
+    </div>
+
+    <script>
+
+      function doo(msg) {
+        var width = 250,
+          height = 250,
           buffer = new Uint8ClampedArray(width * height * 4);
         for (var y = 0; y < height; y++) {
           for (var x = 0; x < width; x++) {
@@ -253,74 +128,121 @@
         var image = document.createElement("IMG");
 
         image.src = dataUri
-        document.body.appendChild(image)
+        return (image);
+      };
 
-        cont.appendChild(image);
+      function dia() {
+        window.load = ((-1000) < ($(document).scrollTop() - $(document).innerHeight() + $(window).innerHeight()));
       }
-    }
+      $(document).on('scroll', function() {
+        cvx();
+      });
 
 
+      function cvx() {
+        curr = $('#disp').children().index(window.currclick);
 
+        while (window.load && window.sides[curr].length) {
+          var iii = window.sides[curr].splice(0, 1)[0];
 
+          $(window.currclick).children().append("Epoch "+(1+iii.epoch)+ "&nbsp;&nbsp;&nbsp;&nbsp; Loss:"+iii.stat.loss.toFixed(4)+ "&nbsp;&nbsp;&nbsp;&nbsp; Val Loss:"+iii.stat.val_loss.toFixed(4));
 
+          $(window.currclick).children().append("<br>");
+          $(window.currclick).children().append(doo(atob(iii.GI)));
+          $(window.currclick).children().append(doo(atob(iii.BI)));
+          $(window.currclick).children().append("<br>");
 
-    const video = document.querySelector('video');
-    const vgaConstraints = {
-      video: {
-        width: {
-          min: 1
-        },
-        height: {
-          min: 1
+          dia();
         }
+        console.log(curr);
       }
-    };
+      setInterval(cvx, 1000)
+      setInterval(dia, 1000);
+      dia();
 
-    navigator.mediaDevices.getUserMedia(vgaConstraints).
-    then((stream) => {
-      video.srcObject = stream
-    });
+      var loading = setTimeout(function() {
+        $("#disp").html("It seems that the server is down.").addClass("red")
+      }, 3000);
+      window.sides = {}
+      oboe('https://server.larrys.tech/models/list.txt')
+        .done(function(things) {
+          clearInterval(loading);
+          var cont = $("#disp");
+          cont.removeClass("bold");
+          cont.empty();
 
-    var v = document.getElementById("inv");
+          for (var i = 0; i < things.length; i++) {
 
-    var cs = document.getElementsByClassName("vdin")
+            var n = document.createElement("div");
+            $(n).addClass('tab');
+            n.innerHTML = things[i];
 
-    v.addEventListener('play', function() {
+            var m = document.createElement("div");
+            $(m).addClass('tabcontent');
 
 
-      window.setInterval(function() {
-        var cs = document.getElementsByClassName("vdin")
-        for (var k = 0; k < cs.length; k++) {
-          var c = cs[k];
+            $(n).append(m);
 
-          var ctx = c.getContext('2d');
+            window.sides[i] = [];
+            (function(nn, mm, ii) {
 
-          var badrat = video.videoWidth / video.videoHeight;
-          var goodrat = c.width / c.height;
-          var scale = 0;
-          if (badrat > goodrat) {
-            scale = video.videoHeight / c.height;
-          } else {
-            scale = video.videoWidth / c.width;
+              $(n).click(function(e) {
+                console.log("asdasdasd")
+                $(m).prepend("<br>");
+
+                $(this).off(e);
+                oboe({
+                    url: 'https://server.larrys.tech/models/' + mm.innerHTML.substring(0, 100).split("<")[0],
+                    method: 'GET',
+                    cache: false
+                  })
+                  .node('!loss', function(item) {
+                    $(nn).prepend("Loss:"+item+".<br>");
+
+                  })
+                  .node('!optimizer', function(item) {
+                    $(nn).prepend("Optimizer:"+item+".<br>");
+
+                  })
+
+                  .node('weights.*', function(item, path) {
+                    // This callback will be called everytime a new object is
+                    // found in the foods array.
+
+                    item.epoch = parseInt(path[1]);
+                    window.sides[ii].push(item);
+
+                    return oboe.drop;
+
+                  })
+                  .done(function(things) {
+
+                  });
+              });
+            })(m, n, i);
+
+            $(n).click(function() {
+              $("#disp").children().each(function() {
+                lc.hide($($(this).children()), true)
+              });
+              lc.hide($($(this).children()[0]), false);
+              console.log("asd")
+              window.currclick = this;
+            });
+
+            $(cont).append(n);
+
           }
-          if (c.pa > 0) {
-            c.pa--;
+          $($("#disp").children()[0]).click();
+        });
+    </script>
 
-            if (c.pa < 49) continue;
-
-          } else {
-            ctx.drawImage(v,
-              (c.width - video.videoWidth / scale) / 2,
-              (c.height - video.videoHeight / scale) / 2,
-              video.videoWidth / scale, video.videoHeight / scale);
+  </div>
 
 
-          }
-        }
-      }, 20);
 
-    }, false);
-  </script>
 </body>
+
+
 
 </html>
