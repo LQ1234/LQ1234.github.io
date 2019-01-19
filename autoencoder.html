@@ -51,7 +51,6 @@
     <p>This is an attempt to create an autoencoder for faces.</p>
     <p>This was made in <a href="https://keras.io/">keras</a>, and the dataset was the <a href="http://vis-www.cs.umass.edu/lfw/">LFW dataset</a>.</p>
     <p>Below is my attempt.</p>
-    <p>Also, the data is streamed!</p>
 
     <style>
       #lc_content {
@@ -142,7 +141,7 @@
       function cvx() {
         curr = $('#disp').children().index(window.currclick);
 
-        while (window.load && window.sides[curr].length) {
+        while ((window.load && window.sides[curr].length)||(window.sides[curr].length)) {
           var iii = window.sides[curr].splice(0, 1)[0];
 
           $(window.currclick).children().append("Epoch "+(1+iii.epoch)+ "&nbsp;&nbsp;&nbsp;&nbsp; Loss:"+iii.stat.loss.toFixed(4)+ "&nbsp;&nbsp;&nbsp;&nbsp; Val Loss:"+iii.stat.val_loss.toFixed(4));
