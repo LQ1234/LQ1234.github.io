@@ -50,7 +50,11 @@
     <h1>Autoencoder</h1>
     <p>This is an attempt to create an autoencoder for faces.</p>
     <p>This was made in <a href="https://keras.io/">keras</a>, and the dataset was the <a href="http://vis-www.cs.umass.edu/lfw/">LFW dataset</a>.</p>
-    <p>Below is my attempt.</p>
+    <div id=replace>
+    <p><b>WARNING: There is a <a href="https://github.com/jimhigson/oboe.js/issues/68">memory leak</a>.
+      Click <a onclick="start();" href="javascript:void(0);">here</a> to load anyways.</b></p>
+    </div>
+
 
     <style>
       #lc_content {
@@ -93,9 +97,7 @@
       }
     </style>
 
-    <div id=disp class=bold>
-      LOADING...
-    </div>
+
 
     <script>
 
@@ -133,9 +135,7 @@
       function dia() {
         window.load = ((-1000) < ($(document).scrollTop() - $(document).innerHeight() + $(window).innerHeight()));
       }
-      $(document).on('scroll', function() {
-        cvx();
-      });
+
 
 
       function cvx() {
@@ -155,85 +155,96 @@
         }
         console.log(curr);
       }
-      setInterval(cvx, 1000)
-      setInterval(dia, 1000);
-      dia();
 
-      var loading = setTimeout(function() {
-        $("#disp").html("It seems that the server is down.").addClass("red")
-      }, 3000);
-      window.sides = {}
-      oboe('https://server.larrys.tech/models/list.txt')
-        .done(function(things) {
-          clearInterval(loading);
-          var cont = $("#disp");
-          cont.removeClass("bold");
-          cont.empty();
+      function start(){
+        var stattt="<p>Below is my attempt.</p><div id=disp class=bold>LOADING...</div>";
+        $("#replace").html(stattt);
 
-          for (var i = 0; i < things.length; i++) {
-
-            var n = document.createElement("div");
-            $(n).addClass('tab');
-            n.innerHTML = things[i];
-
-            var m = document.createElement("div");
-            $(m).addClass('tabcontent');
-
-
-            $(n).append(m);
-
-            window.sides[i] = [];
-            (function(nn, mm, ii) {
-
-              $(n).click(function(e) {
-                console.log("asdasdasd")
-                $(m).prepend("<br>");
-
-                $(this).off(e);
-                oboe({
-                    url: 'https://server.larrys.tech/models/' + mm.innerHTML.substring(0, 100).split("<")[0],
-                    method: 'GET',
-                    cache: false
-                  })
-                  .node('!loss', function(item) {
-                    $(nn).prepend("Loss:"+item+".<br>");
-
-                  })
-                  .node('!optimizer', function(item) {
-                    $(nn).prepend("Optimizer:"+item+".<br>");
-
-                  })
-
-                  .node('weights.*', function(item, path) {
-                    // This callback will be called everytime a new object is
-                    // found in the foods array.
-
-                    item.epoch = parseInt(path[1]);
-                    window.sides[ii].push(item);
-
-                    return oboe.drop;
-
-                  })
-                  .done(function(things) {
-
-                  });
-              });
-            })(m, n, i);
-
-            $(n).click(function() {
-              $("#disp").children().each(function() {
-                lc.hide($($(this).children()), true)
-              });
-              lc.hide($($(this).children()[0]), false);
-              console.log("asd")
-              window.currclick = this;
-            });
-
-            $(cont).append(n);
-
-          }
-          $($("#disp").children()[0]).click();
+        $(document).on('scroll', function() {
+          cvx();
         });
+        setInterval(cvx, 1000)
+        setInterval(dia, 1000);
+        dia();
+         window.loading = setTimeout(function() {
+          $("#disp").html("It seems that the server is down.").addClass("red")
+        }, 3000);
+        oboe('https://server.larrys.tech/models/list.txt')
+          .done(function(things) {
+            clearInterval(loading);
+            var cont = $("#disp");
+            cont.removeClass("bold");
+            cont.empty();
+
+            for (var i = 0; i < things.length; i++) {
+
+              var n = document.createElement("div");
+              $(n).addClass('tab');
+              n.innerHTML = things[i];
+
+              var m = document.createElement("div");
+              $(m).addClass('tabcontent');
+
+
+              $(n).append(m);
+
+              window.sides[i] = [];
+              (function(nn, mm, ii) {
+
+                $(n).click(function(e) {
+                  console.log("asdasdasd")
+                  $(m).prepend("<br>");
+
+                  $(this).off(e);
+                  oboe({
+                      url: 'https://server.larrys.tech/models/' + mm.innerHTML.substring(0, 100).split("<")[0],
+                      method: 'GET',
+                      cache: false
+                    })
+                    .node('!loss', function(item) {
+                      $(nn).prepend("Loss:"+item+".<br>");
+
+                    })
+                    .node('!optimizer', function(item) {
+                      $(nn).prepend("Optimizer:"+item+".<br>");
+
+                    })
+
+                    .node('weights.*', function(item, path) {
+                      // This callback will be called everytime a new object is
+                      // found in the foods array.
+                      setTimeout(function(){}, 1000);
+
+                      item.epoch = parseInt(path[1]);
+                      window.sides[ii].push(item);
+
+                      return oboe.drop;
+
+                    })
+                    .done(function(things) {
+
+                    });
+                });
+              })(m, n, i);
+
+              $(n).click(function() {
+                $("#disp").children().each(function() {
+                  lc.hide($($(this).children()), true)
+                });
+                lc.hide($($(this).children()[0]), false);
+                console.log("asd")
+                window.currclick = this;
+              });
+
+              $(cont).append(n);
+
+            }
+            $($("#disp").children()[0]).click();
+          });
+      }
+
+      window.sides = {}
+
     </script>
 
   </div>
