@@ -6,6 +6,8 @@ var files={
    "Other":{
       "Autoclicker":"autoclicker.html",
       "Math Library":"math.html",
-      "Password Generator":"passwordgen.html"
+      "Password Generator":"passwordgen.html",
+      "Gravity particle simulation":"worldsimulator.html"
+
    }
 }

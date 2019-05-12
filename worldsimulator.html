@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.4/seedrandom.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+  <script src="files.js"></script>
+  <script src="default.js"></script>
+  <link rel="stylesheet" type="text/css" href="default.css">
+  <title>Gravity particle simulation</title>
+  <style>
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      border-width:0px;
+    }
+
+    .container {
+      width: 100%;
+      padding-top: 100%;
+      position: relative;
+
+    }
+  </style>
+  <script>
+  $(function(){
+    if(lc.mobile){
+      var banner = document.createElement("div");
+
+      $(banner).addClass( "lc_banner");
+      banner.innerHTML="Warning: Might not work on mobile!";
+      $(banner).insertBefore($(".container")[0])
+    }
+  });
+  </script>
+</head>
+
+<body>
+  <div id=lc_header>
+  </div>
+  <div id=lc_content>
+    <h1>Gravity particle simulation</h1>
+    <div class=container>
+        <iframe src="World%20Simulator/index.html">ERROR</iframe>
+    </div>
+
+  </div>
+</body>
+
+</html>
