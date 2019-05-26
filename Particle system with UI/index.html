@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <base href="../">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>      <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.4/seedrandom.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+      <script src="files.js"></script>
+      <script src="default.js"></script>
+      <link rel="stylesheet" type="text/css" href="default.css">
+      <title>Particle system</title>
+      <script src=Particle%20system%20with%20UI/LML.js> </script>
+      <link rel="stylesheet" type="text/css" href="Particle%20system%20with%20UI/style.css">
+      <script src=Particle%20system%20with%20UI/particlesys.js></script>
+      <script src=Particle%20system%20with%20UI/main.js> </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.10.0/beautify.js"></script>
+
+   </head>
+   <body>
+      <div id = lc_header>
+      </div>
+      <div id=lc_content>
+         <h1> Particle system </h1>
+         <div id=flexcont>
+            <div id=d1>
+               Controls: Click and drag to pan, scroll to zoom <br>
+               <canvas id=bg>
+               </canvas>
+            </div>
+            <div id=d2>
+              <div>
+                <div class=lc_dropdown id=dropdown>
+                  Load Preset
+                  <div class=lc_dropdownoptions>
+                    <button onclick="preset(0)">Gravity</button>
+                    <button onclick="preset(1)">Water</button>
+                    <button onclick="preset(2)">Stripes</button>
+
+                  </div>
+                </div>
+
+                 <button id=runbutton  onclick="run()"> Run </button>
+                 <button id=formatbutton onclick="format()"> Format </button>
+
+              </div>
+
+               <textarea id=codeedit  spellcheck="false"></textarea>
+               <div id=error>aasd</div>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

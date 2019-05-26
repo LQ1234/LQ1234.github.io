@@ -1,0 +1,107 @@
+
+#bg {
+  display: block;
+  width: 40vw;
+  height: 40vw;
+  min-width: 200px;
+  min-height: 200px;
+  background-color: white;
+  border: 1px gray solid;
+  margin-top: 10px;
+}
+
+#_LOADIMG {
+  display: none;
+}
+
+body {
+  background-color: white;
+  padding: 0px;
+}
+
+#d2 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+  margin-left: 1vw;
+}
+
+#flexcont {
+  display: flex;
+  border-spacing: 10px;
+}
+
+#d1, #d2 {}
+
+
+#d2 textarea {
+  box-sizing: border-box;
+  outline: none;
+
+  width: 100%;
+  resize: none;
+  height: 100%;
+  margin-top: .7vw;
+  font-size: .8em;
+  font-family: "Courier New", Courier, monospace	;
+  white-space: nowrap;  overflow: auto;
+  padding: 5px;
+}
+
+#dropdown {
+  border: 1px gray solid;
+  min-width: 40%;
+  padding: 8px;
+}
+
+#dropdown .lc_dropdownoptions {
+  border: 1px gray solid;
+  margin-left: -9px;
+  /* -border-padding */
+  margin-top: 8px;
+}
+
+#dropdown .lc_dropdownoptions * {
+  display:block;
+  border-bottom: 1px gray solid;
+  padding: 8px;
+  width:100%;
+  text-align: left;
+  outline: none;
+}
+#dropdown .lc_dropdownoptions *:hover {
+  background: rgb(210,210,210);
+
+}
+
+#runbutton,#formatbutton{
+  border: 1px gray solid;
+  float:right;
+  padding: 8px;
+  background: white;
+  margin-left: .5vw;
+  outline: none;
+}
+
+#runbutton:hover,#formatbutton:hover{
+  background: rgb(210,210,210);
+}
+#runbutton:active,#formatbutton:active{
+  border: 1px gray inset;
+
+}
+#runbutton .lc_dropdownoptions *:hover,#formatbutton .lc_dropdownoptions *:hover {
+  background: rgb(210,210,210);
+
+  }
+
+#error{
+  box-sizing: border-box;
+
+  background-color: #ffa5a5;
+  width:100%;
+  border: 2px #f94a4a solid;
+  font-size: .8em;
+  padding:5px;
+}
