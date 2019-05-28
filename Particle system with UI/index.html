@@ -51,6 +51,103 @@
                <div id=error>aasd</div>
             </div>
          </div>
+         <div class=docs>
+           <h3>Particlesys <span class=unbold>(func, generator, boxsize)</span>:</h3>
+           <p>func: Function to be ran on every particle. Ran like function(particle, world) where particle is this particle and world is a clone of this Particlesys.
+           <br>generator: Function that generates the particles.
+           <br>boxsize: size of boxes that particles are sorted in.
+           </p>
+
+           <div class=br></div>
+           <h4>clone <span class=unbold>()</span>:</h4>
+           <p>Clones this Particlesys.<br>
+             returns: clone.
+           </p>
+
+           <div class=br></div>
+           <h4>add <span class=unbold>(particle)</span>:</h4>
+           <p>particle: Particle to add.<br>
+             returns: nothing.
+           </p>
+
+           <div class=br></div>
+           <h4>forEach <span class=unbold>(func)</span>:</h4>
+           <p>func: Function to run on each particle.<br>
+             returns: nothing.
+           </p>
+
+           <div class=br></div>
+           <h4>remove <span class=unbold>(particle)</span>:</h4>
+           <p>particle: Particle to remove.<br>
+             returns: particle to remove, or null if particle is not found.
+           </p>
+
+           <div class=br></div>
+           <h4>reset <span class=unbold>()</span>:</h4>
+           <p>Removes all particles and reruns generator.<br>
+             returns: nothing.
+           </p>
+
+           <div class=br></div>
+           <h4>getWithinRange <span class=unbold>(pops, no)</span>:</h4>
+           <p>pops: Particle that is center of the particles returned<br>
+            no: distance of particles around center. <br>
+            <bold>Note: searches in a box, and returns whole grid boxes</bold><br>
+            returns: list of particles.
+           </p>
+
+           <div class=br></div>
+           <h4>tick <span class=unbold>()</span>:</h4>
+           <p>Runs the function on every particle, adds the velocitys to coordinates, and moves particle to correct box.<br>
+             returns: nothing.
+           </p>
+
+           <br>
+
+           <h3>Particle <span class=unbold>(size, x, y, xv, yv)</span>:</h3>
+           <p>size: size of particle. <br>
+             x, y: Coordinates of particle. <br>
+             xv, yv: Velocity of particle.
+           </p>
+
+           <br>
+           <h3>generators object</h3>
+           <p>Object exposed that is used in Particlesys constructor.
+           </p>
+
+           <h3>generators.grid <span class=unbold>(width, height, sep) </span>:</h3>
+           <p>width, height: Size of grid of particles.<br>
+             sep: Distance between particles in grid.
+           </p>
+
+           <h3>generators.grid <span class=unbold>(width, height, sep) </span>:</h3>
+           <p>
+             Creates grid of particles.<br>
+             width, height: Size of grid of particles.<br>
+             sep: Distance between particles in grid.
+           </p>
+
+           <h3>generators.random <span class=unbold>(width, height, amount) </span>:</h3>
+           <p>
+             Creates particles in random position.<br>
+             width, height: Boundaries of which particles are generated. <br>
+             amount: Amount of particles to generate.
+           </p>
+
+           <h3>generators.randomDir <span class=unbold>(width, height, amount, randomness) </span>:</h3>
+           <p>
+             Does the same as generators.random, but the velocities of particles are random.<br>
+             randomness: The speed of the particle.
+           </p>
+
+           <h3>generators.allOut <span class=unbold>(force, amount, randomness) </span>:</h3>
+           <p>
+             All of the particles spawn at origin<br>
+             force: The speed of the particles.<br>
+             amount: Amount of particles.<br>
+             randomness: How exact the force is.
+           </p>
+         </div>
       </div>
    </body>
 </html>

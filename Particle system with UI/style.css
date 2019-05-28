@@ -105,3 +105,25 @@ body {
   font-size: .8em;
   padding:5px;
 }
+
+.docs{
+  line-height: 40%;
+}
+.docs p{
+  line-height: 120%;
+
+}
+
+.unbold{
+  font-weight: normal;
+
+}
+
+.docs h3,.docs h4{
+  margin-bottom: -.3em;
+}
+.docs .br{
+  display:block;
+  margin-bottom: 1.5em;
+
+}
