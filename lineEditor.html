@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.4/seedrandom.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+  <script src="files.js"></script>
+  <script src="default.js"></script>
+  <link rel="stylesheet" type="text/css" href="default.css"><meta name="google-site-verification" content="tbZW6ZIg9oZ3CPpxQTU2bPy6nXwTBLGWQWQo3EAKFyg" />
+  <title>Line Editor</title>
+  <style>
+
+
+.nin {
+  width: 5em;
+}
+
+canvas {
+  border: 1px solid #000000;
+}
+  </style>
+  <script>
+  $(function(){
+    $('#clear').click(function() {
+  lines = [];
+});
+$('#export').click(function() {
+  prompt("Copy: ", "[" + lines.join(", ") + "]");
+});
+$('#import').click(function() {
+  var inp = prompt("Paste: ", "");
+  if (inp&&inp.length)
+    lines = eval(inp);
+});
+
+$("#wIn").change(function() {
+  $("#drawer").attr("width", this.value);
+  frame();
+});
+$("#hIn").change(function() {
+  $("#drawer").attr("height", this.value);
+  frame();
+});
+window.setInterval(function() {
+  frame();
+  mouse.up = false;
+  mouse.press = false;
+
+}, 20);
+var lines = [];
+var creatingNewLine = false;
+var mouse = {
+  startX: 0,
+  startY: 0,
+  moveX: 0,
+  moveY: 0,
+  endX: 0,
+  endY: 0,
+  down: false,
+  up: false,
+  press: false
+}
+
+var selectedLine = -1;
+
+function dist(x1, y1, x2, y2) {
+  return (Math.hypot(x2 - x1, y2 - y1));
+}
+
+function frame() {
+  var canvas = $("#drawer")[0];
+  canvas.width = canvas.width;
+  var sep = Math.max(5, parseInt($("#gridSep")[0].value));
+  var snapped = ($("#snapToGrid").prop("checked"));
+
+  function getActualPos(...args) {
+    if (snapped) return (args.map((a) => {
+      return (snap(a))
+    }));
+    return (args);
+  }
+
+  function snap(n) {
+    return (Math.round(n / sep) * sep);
+  }
+  var ctx = canvas.getContext("2d");
+  ctx.fillStyle = "lightgray";
+  for (var x = 0; x < canvas.width; x += sep)
+    ctx.fillRect(x, 0, 1, canvas.height);
+  for (var y = 0; y < canvas.height; y += sep)
+    ctx.fillRect(0, y, canvas.width, 1);
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "black";
+  if (mouse.press) {
+
+    creatingNewLine = true;
+
+  }
+  if (creatingNewLine) {
+    ctx.beginPath();
+    if (snapped) {
+      ctx.moveTo(snap(mouse.startX), snap(mouse.startY));
+      ctx.lineTo(snap(mouse.moveX), snap(mouse.moveY));
+    } else {
+      ctx.moveTo(mouse.startX, mouse.startY);
+      ctx.lineTo(mouse.moveX, mouse.moveY);
+    }
+    ctx.stroke();
+
+  }
+  if (mouse.up && creatingNewLine) {
+    creatingNewLine = false;
+    if (dist(...getActualPos(mouse.startX, mouse.startY, mouse.moveX, mouse.moveY)) > sep / 2) {
+      lines.push(...getActualPos(mouse.startX, mouse.startY, mouse.moveX, mouse.moveY));
+      selectedLine = lines.length / 4 - 1;
+    }
+  }
+  for (var i = 0; i < lines.length; i += 4) {
+    if (selectedLine === i / 4) ctx.strokeStyle = "#16c1ff";
+    else ctx.strokeStyle = "black";
+
+    ctx.beginPath();
+    ctx.moveTo(lines[i], lines[i + 1]);
+    ctx.lineTo(lines[i + 2], lines[i + 3]);
+    ctx.stroke();
+  }
+}
+$("#drawer").click(function(e) {
+  var offset = $(this).offset();
+  var x = e.pageX - offset.left;
+  var y = e.pageY - offset.top;
+
+  mouse.down = false;
+  mouse.up = true;
+});
+
+
+$("#drawer").mousedown(function(e) {
+  var offset = $(this).offset();
+  var x = e.pageX - offset.left;
+  var y = e.pageY - offset.top;
+  mouse.startX = x;
+  mouse.startY = y;
+  mouse.down = true;
+  mouse.press = true;
+
+});
+$("#drawer").mousemove(function(e) {
+  var offset = $(this).offset();
+  var x = e.pageX - offset.left;
+  var y = e.pageY - offset.top;
+  mouse.moveX = x;
+  mouse.moveY = y;
+});
+$("#drawer").mouseup(function(e) {
+  var offset = $(this).offset();
+  var x = e.pageX - offset.left;
+  var y = e.pageY - offset.top;
+
+  mouse.down = false;
+  mouse.up = true;
+});
+$("#drawer").click(function(e) {
+  var offset = $(this).offset();
+  var mx = e.pageX - offset.left;
+  var my = e.pageY - offset.top;
+
+  var minDist = 10;
+  var minLine = -1;
+  for (var i = 0; i < lines.length; i += 4) {
+    var distToThis = distToSegment({
+      x: mx,
+      y: my
+    }, {
+      x: lines[i],
+      y: lines[i + 1]
+    }, {
+      x: lines[i + 2],
+      y: lines[i + 3]
+    });
+    if (distToThis < minDist) {
+      minLine = i / 4;
+      minDist = distToThis;
+    }
+  }
+  selectedLine = minLine;
+});
+
+$('html').keyup(function(e) {
+  if (e.keyCode == 46 & selectedLine != -1) {
+    lines.splice(selectedLine * 4, 4)
+    selectedLine = -1;
+  }
+})
+
+
+
+//https://stackoverflow.com/a/1501725/5771000
+function sqr(x) {
+  return x * x
+}
+
+function dist2(v, w) {
+  return sqr(v.x - w.x) + sqr(v.y - w.y)
+}
+
+function distToSegmentSquared(p, v, w) {
+  var l2 = dist2(v, w);
+  if (l2 == 0) return dist2(p, v);
+  var t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+  t = Math.max(0, Math.min(1, t));
+  return dist2(p, {
+    x: v.x + t * (w.x - v.x),
+    y: v.y + t * (w.y - v.y)
+  });
+}
+
+function distToSegment(p, v, w) {
+  return Math.sqrt(distToSegmentSquared(p, v, w));
+}
+
+  });
+  </script>
+</head>
+<body>
+  <div id=lc_header>
+  </div>
+  <div id=lc_content>
+
+    <h1>Line Editor</h1>
+    <input checked type="checkbox" id="snapToGrid"> Snap To Grid &emsp; Width: <input type="number" class=nin id=wIn min="50" value=500> &emsp; Height: <input type="number" class=nin id=hIn min="50" value=500>&emsp; Grid Separation: <input type="number" class=nin
+  id=gridSep min="1" value=20>&emsp;
+  <button type="button" id=clear>Clear</button>&emsp;
+  <button type="button" id=export>Export</button>&emsp;
+  <button type="button" id=import>Import</button>
+
+
+  <br><br>
+  <canvas id="drawer" width="500" height="500">
+  </canvas>
+
+  </div>
+</body>
+
+</html>
