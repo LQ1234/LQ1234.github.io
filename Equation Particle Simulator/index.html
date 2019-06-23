@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="../">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.4/seedrandom.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+  <script src="files.js"></script>
+  <script src="default.js"></script>
+  <link rel="stylesheet" type="text/css" href="default.css"><meta name="google-site-verification" content="tbZW6ZIg9oZ3CPpxQTU2bPy6nXwTBLGWQWQo3EAKFyg" />
+  <title>Equation Particle Simulator</title>
+  <script src="Equation%20Particle%20Simulator/renderer.js" charset="utf-8"></script>
+
+  <script src="Equation%20Particle%20Simulator/main.js" charset="utf-8"></script>
+  <style>
+    #container{
+      margin-top:10px;
+      width:500px;
+      height:500px;
+    }
+    #container canvas{
+
+      border: 1px black solid;
+      position:absolute;
+    }
+  </style>
+</head>
+<body>
+  <div id=lc_header>
+  </div>
+  <div id=lc_content>
+
+    <h1>Equation Particle Simulator</h1>
+    Simulates particles using the quadratic equation and rendered using WebGl.
+    <br><br>
+    Number of Particles: <input type="number" id=noOfParticles min="50" value=10000>&emsp;
+
+    <button type="button" id=import>Rerun</button>
+
+    <br>
+    <div id="container">
+      <canvas id="canvas" width=500 height=500></canvas>
+      <canvas id="render" width=500 height=500></canvas>
+    </div>
+  </div>
+</body>
+
+</html>

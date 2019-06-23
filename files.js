@@ -5,7 +5,8 @@ var files={
    "Multiplayer game":"io.html",
    "Particle Simulations":{
      "Gravity particle simulation":"worldsimulator.html",
-     "Particle system":"Particle%20system%20with%20UI/index.html"
+     "Particle system":"Particle%20system%20with%20UI/index.html",
+     "Equation Particle Simulator":"Equation%20Particle%20Simulator/index.html"
    },
    "Other":{
       "Autoclicker":"autoclicker.html",
