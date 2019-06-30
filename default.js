@@ -52,6 +52,8 @@ window.lc = {
 
 $(function() {
   if (lc.mobile) {
+    document.addEventListener("touchstart", function() {}, true);
+
     $("body").addClass("lc_mobile");
   }
   $('body').css("display", "block")
