@@ -6,7 +6,12 @@ var files={
    "Particle Simulations":{
      "Gravity particle simulation":"worldsimulator.html",
      "Particle system":"Particle%20system%20with%20UI/index.html",
-     "Equation Particle Simulator":"Equation%20Particle%20Simulator/index.html"
+   },
+   "WebGL Stuff":{
+     "Wavy":"WIP/WGPM/index.html",
+     "Equation Particle Simulator":"Equation%20Particle%20Simulator/index.html",
+     "WebGl Predetermined Particles":"WebGl%20Predetermined%20Particles/index.html"
+
    },
    "Other":{
       "Autoclicker":"autoclicker.html",
@@ -14,5 +19,6 @@ var files={
       "Password Generator":"passwordgen.html",
       "Shader Comparison":"mc%20video/index.html",
       "Line Editor":"lineEditor.html"
-   }
+   },
+
 }
