@@ -74,49 +74,108 @@ $(function() {
   lc.checkoverflow();
   setInterval(lc.checkoverflow, 1000);
   */
-  var nav = document.createElement("div");
-  nav.id = "lc_nav";
-  header.appendChild(nav);
-  var itms=Object.keys(files);
-  for (var i = 0; i < itms.length; i++) {
-    var itmsi=itms[i];
-    var itmse=files[itmsi];
-    var spi = document.createElement("div");
-    spi.className = "lc_dropdown"
+  var navDIV = document.createElement("div");
+  navDIV.id = "lc_nav";
+  header.appendChild(navDIV);
+  var mainItemKeys=Object.keys(files);
 
-    if((typeof itmse)=== 'string'){
-      var ahr = document.createElement("a");
-      spi.innerHTML=itmsi;
-      ahr.href = itmse;
-      ahr.appendChild(spi);
-      nav.appendChild(ahr);
-
-    }else{
-      var pps = document.createElement("div");
-      pps.className = "lc_dropdownoptions";
-
-      spi.innerHTML=itmsi;
-      var dds=Object.keys(itmse);
-
-
-      for (var j = 0; j < dds.length; j++) {
-        var ddsi=dds[j];
-        var ddse=itmse[ddsi];
-        var lts = document.createElement("div");
-
-        var ahr = document.createElement("a");
-        ahr.innerHTML=ddsi;
-        //ahr.appendChild(lts);
-        ahr.href = ddse;
-        pps.appendChild(ahr);
+  function addTags(element, tags){
+    var tagsDiv=document.createElement("div");
+    tagsDiv.className = "lc_navTags";
+    for(var i=0;i<tags.length;i++){
+      var tag=document.createElement("div");
+      tag.innerHTML=tags[i];
+      tag.className = "lc_navTag";
+      if(i%2==0){
+        var color="gray";
+        var fill="black";
+      }else{
+        var color="lightgray";
+        var fill="gray";
       }
-      spi.appendChild(pps);
-      nav.appendChild(spi);
+      tag.style.backgroundColor = color;
+      tag.style.color = fill;
+
+      tag.style.borderColor = color;
+
+      tagsDiv.appendChild(tag);
+    }
+    element.appendChild(tagsDiv);
+
+
+  }
+  var thisItemKey;
+  var thisItemData;
+  function testLink(dir,name,data){
+    if(($(`<a href="${dir}">`)[0].href)===window.location.href){
+      thisItemKey=name;
+      thisItemData=data;
+    }
+  }
+  for (var i = 0; i < mainItemKeys.length; i++) {
+    var mainItemKey=mainItemKeys[i];
+    var mainItemContent=files[mainItemKey];
+
+
+    if(mainItemContent.link){
+      var linkObj = document.createElement("div");
+      linkObj.className = "lc_dropdown";
+      var linkAnchor = document.createElement("a");
+      linkObj.innerHTML=mainItemKey;
+      addTags(linkObj,mainItemContent.tags)
+
+      linkAnchor.href = mainItemContent.link;
+      linkAnchor.appendChild(linkObj);
+      navDIV.appendChild(linkAnchor);
+      testLink(mainItemContent.link,mainItemKey,mainItemContent);
+    }else{
+      var dropDownContainer = document.createElement("div");
+      dropDownContainer.className = "lc_dropdown"
+      var dropDownContent = document.createElement("div");
+      dropDownContent.className = "lc_dropdownoptions";
+      dropDownContainer.innerHTML=mainItemKey;
+
+      var dropDownContentKeys=Object.keys(mainItemContent);
+
+      for (var j = 0; j < dropDownContentKeys.length; j++) {
+        var dropDownContentKey=dropDownContentKeys[j];
+        var dropDownContentContent=mainItemContent[dropDownContentKey];
+
+        var subAnchor = document.createElement("a");
+
+
+        subAnchor.href = dropDownContentContent.link;
+        var subObj = document.createElement("div");
+        subObj.innerHTML=dropDownContentKey;
+        addTags(subObj,dropDownContentContent.tags)
+
+        subAnchor.appendChild(subObj);
+        dropDownContent.appendChild(subAnchor);
+        testLink(dropDownContentContent.link,dropDownContentKey,dropDownContentContent);
+
+      }
+      dropDownContainer.appendChild(dropDownContent);
+      navDIV.appendChild(dropDownContainer);
 
     }
 
   }
+  $("#lc_title").append($("<h1>"+thisItemKey+"</h1>"));
+  for (var i = 0; i < thisItemData.tags.length; i++) {
+    var ne=$("<div class=lc_thisTag>"+thisItemData.tags[i]+"</div>");
+    if(i%2==0){
+      var color="black";
+    }else{
+      var color="gray";
+    }
+    ne.css("color",color);
+    ne.css("border-color",color);
 
+    $("#lc_title > *:first-child").append(ne);
+
+  }
+  $("#lc_title").append($("<div class=lc_thisCreationDate>"+thisItemData.time+"</div>"));
+  console.log(thisItemKey);
 
   function detect() {
     $('#lc_nav').removeClass('fullwidth')

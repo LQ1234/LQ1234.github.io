@@ -108,13 +108,12 @@ div.lc_dropdown .lc_dropdownoptions {
 
 #lc_header div.lc_dropdown {
   position: relative;
-  /*https://stackoverflow.com/a/9404641/5771000*/
   display: inline-block;
   border: lightgray solid 1px;
-  padding-left: 9px;
-  padding-right: 9px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 9px;
+  padding-bottom: 9px;
   min-width: 140px;
   border-bottom: gray solid 0px;
 }
@@ -169,9 +168,9 @@ div.lc_dropdown .lc_dropdownoptions {
   background-color: white;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-left: -10px;
+  margin-left: -11px;
   /* -border-padding */
-  margin-top: 8px;
+  margin-top: 9px;
   /* padding */
 }
 
@@ -179,20 +178,89 @@ div.lc_dropdown .lc_dropdownoptions {
   border-top: red solid 0px;
 }
 
-#lc_header div.lc_dropdown .lc_dropdownoptions * {
+#lc_header div.lc_dropdown .lc_dropdownoptions > * >  div {
+  margin:0px;
+
+  position: relative;
   border-top: lightgray solid 1px;
-  padding-left: 9px;
-  padding-right: 9px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 9px;
+  padding-bottom: 9px;
 }
 
-#lc_header div.lc_dropdown .lc_dropdownoptions *:hover {
+#lc_header div.lc_dropdown .lc_dropdownoptions> *> div:hover {
   background-color: #e6e6e6;
 }
 
-#lc_header div.lc_dropdown .lc_dropdownoptions :first-child {
+#lc_header div.lc_dropdown .lc_dropdownoptions:first-child >div{
   border-top: red solid 0px;
+}
+.lc_navTags{
+  opacity: 0.7;
+
+  top:0px;
+  right:0px;
+  position:absolute;
+  font-size: .65em;
+}
+
+.lc_navTag{
+  display:inline-block;
+  position:relative;
+  background-color: gray;
+  border: 0px red solid;
+  padding:auto;
+  padding-left:1px;
+  height:1.25em;
+  line-height: 1.25em;
+  font-size: 1em;
+  padding-right:1em;
+}
+.lc_navTag:last-child{
+  padding-right:2px;
+
+}
+
+.lc_navTag:before{
+  left:-1.2em;
+  position: absolute;
+  display: inline-block;
+  content:"";
+  width:0px;
+  height:0px;
+  border-width: .625em;
+  border-style: solid;
+  border-color:rgba(0,0,0,0);
+  border-top-color: inherit;
+  border-right-color: inherit;
+  line-height: 0em;
+
+  display:inline;
+
+
+}
+#lc_title h1{
+  margin-bottom: 0px;
+}
+#lc_title h1+*{
+color:darkgray;
+}
+.lc_thisCreationDate{
+}
+.lc_thisTag{
+  vertical-align: middle;
+margin-left:20px;
+display:inline-block;
+font-style: normal;
+font-weight: normal;
+font-size: .5em;
+border: black solid 1px;
+padding-left: 3px;
+padding-right: 3px;
+padding-top: 2px;
+padding-bottom: 2px;
+
 }
 
 body {
