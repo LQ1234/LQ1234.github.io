@@ -104,8 +104,8 @@ $(function() {
 
 
   }
-  var thisItemKey;
-  var thisItemData;
+  var thisItemKey="Home";
+  var thisItemData=files[thisItemKey];
   function testLink(dir,name,data){
     if(($(`<a href="${dir}">`)[0].href)===window.location.href){
       thisItemKey=name;
