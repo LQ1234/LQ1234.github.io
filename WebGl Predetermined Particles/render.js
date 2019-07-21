@@ -129,7 +129,7 @@ var WGPM=(function(){
     }
     `;
     var fragmentShaderScript=`
-    precision highp float;
+    precision mediump float;
 
     varying vec4 toPassData;
 
@@ -218,7 +218,7 @@ var WGPM=(function(){
     }
     `;
     var fragmentShaderScript=`
-    precision highp float;
+    precision mediump float;
 
     varying vec4 shaderColor;
 
@@ -325,7 +325,7 @@ var WGPM=(function(){
     }
     `;
     var fragmentShaderScript=`
-    precision highp float;
+    precision mediump float;
 
     varying vec4 shaderColor;
 
