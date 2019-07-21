@@ -52,7 +52,7 @@ window.onload = function() {
       }
       `,
     `
-      precision highp float;
+      precision mediump float;
 
 
       uniform vec2 u_textureSize;
