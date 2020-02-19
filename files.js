@@ -4,16 +4,6 @@ var files = {
     "time": "Jun 23, 2018",
     "link": "index.html"
   },
-  "Autoencoder": {
-    "tags": ["ML"],
-    "time": "Nov 14, 2018",
-    "link": "autoencoder.html"
-  },
-  "Multiplayer game": {
-    "tags": ["Socket.io"],
-    "time": "Dec 9, 2018",
-    "link": "io.html"
-  },
   "Particle Simulations": {
     "Gravity particle simulation": {
       "tags": ["Simulation"],
